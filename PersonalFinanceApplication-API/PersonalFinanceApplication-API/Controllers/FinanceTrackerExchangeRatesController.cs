@@ -1,0 +1,89 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using PersonalFinanceApplication_API.ReffitSettings;
+using PersonalFinanceApplication_DTO.RequestModels;
+using Refit;
+
+namespace PersonalFinanceApplication_API.Controllers
+{
+    [Route("api/exchange-rates")]
+    [ApiController]
+    public class FinanceTrackerExchangeRatesController : ControllerBase
+    {
+        private readonly IProxyApi _proxyApi;
+        public FinanceTrackerExchangeRatesController(IProxyApi proxyApi)
+        {
+            _proxyApi = proxyApi;
+        }
+
+        [HttpGet("latest-currencies/{base}")]
+        public async Task<IActionResult> GetLatestCurrencies(string @base, [Query] string? symbols)
+        {
+            try
+            {
+                var result = await _proxyApi.GetLatestCurrencies(@base, symbols);
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("historical-currencies/{base}/{date}")]
+        public async Task<IActionResult> GetHistoricalCurrencies(string @base, string date, [FromQuery] string? symbols)
+        {
+            try
+            {
+                var result = await _proxyApi.GetHistoricalCurrencies(@base.ToUpper(), date, symbols?.ToUpper());
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("available-currencies/{type}")]
+        public async Task<IActionResult> GetAvailableCurrencies(string type)
+        {
+            try
+            {
+                var result = await _proxyApi.GetAvailableCurrencies(type);
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("convert")]
+        public async Task<IActionResult> ConvertAmount(ExchangeAmountRequestDto request)
+        {
+            try
+            {
+                var result = await _proxyApi.ConvertAmount(request);
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}

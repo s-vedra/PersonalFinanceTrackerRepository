@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using PersonalFinanceApplication_API.ReffitSettings;
 using PersonalFinanceApplication_DAL;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DAL.Implementation;
@@ -11,6 +12,7 @@ using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +53,9 @@ builder.Services.AddScoped<IValidator<UpdateIncomeCommand>, UpdateIncomeValidato
 builder.Services.AddScoped<IValidator<GetExpenseQuery>, GetExpenseValidator>();
 builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 
+
+//refit settings
+builder.Services.AddScoped(x => RestService.For<IProxyApi>(builder.Configuration["ApiSettings:ApiProxyUrl"]));
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
