@@ -9,8 +9,8 @@ namespace PersonalFinanceApplication_API.ReffitSettings
         [Get("/api/exchange-rates/latest-currencies/{base}")]
         public Task<ExchangeRateResponseDto> GetLatestCurrencies(string @base, [Query] string? symbols);
 
-        [Get("/api/exchange-rates/historical-currencies/{base}/{date}")]
-        public Task<ExchangeRateResponseDto> GetHistoricalCurrencies(string @base, string date, [Query] string? symbols);
+        [Post("/api/exchange-rates/historical-currencies")]
+        public Task<ExchangeRateResponseDto> GetHistoricalCurrencies(HistoricalCurrenciesRequestDto model);
 
         [Get("/api/exchange-rates/available-currencies/{type}")]
         public Task<CurrencyApiResponseDto> GetAvailableCurrencies(string type);

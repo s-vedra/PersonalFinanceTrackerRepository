@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PersonalFinanceApplication_DtoModels.RequestModels;
 using PersonalFinanceApplicationExchangeRates_API.Models;
 using PersonalFinanceApplicationExchangeRates_API.RefitSettings;
+using PFA_Services.RequestService;
 using Refit;
 
 namespace PersonalFinanceApplicationExchangeRates_API.Controllers
@@ -11,10 +13,14 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
     {
         private readonly IExchangeRatesClient _exchangeRatesClient;
         private readonly string _apiKey;
-        public FinanceTrackerExchangeRatesController(IExchangeRatesClient exchangeRatesClient, IConfiguration configuration)
+        private readonly IRequestService _requestService;
+        private readonly IList<string> _availableTypes;
+        public FinanceTrackerExchangeRatesController(IExchangeRatesClient exchangeRatesClient, IConfiguration configuration, IRequestService requestService)
         {
             _exchangeRatesClient = exchangeRatesClient;
             _apiKey = configuration["ApiSettings:ApiKey"];
+            _availableTypes = configuration.GetSection("ApiSettings:AvailableCurrencyTypes").Get<string[]>();
+            _requestService = requestService;
         }
 
         [HttpGet("latest-currencies/{base}")]
@@ -22,6 +28,7 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
         {
             try
             {
+                _requestService.ValidateRequest(@base);
                 var currencies = await _exchangeRatesClient.GetLatestCurrencies(_apiKey, @base.ToUpper(), symbols?.ToUpper());
                 return Ok(currencies);
             }
@@ -29,17 +36,27 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("historical-currencies/{base}/{date}")]
-        public async Task<IActionResult> GetHistoricalCurrencies(string @base, string date, [FromQuery] string? symbols)
+        [HttpPost("historical-currencies")]
+        public async Task<IActionResult> GetHistoricalCurrencies(HistoricalCurrenciesRequestDto model)
         {
             try
             {
-                var currencies = await _exchangeRatesClient.GetHistoricalCurrencies(_apiKey, @base.ToUpper(), date, symbols?.ToUpper());
+                _requestService.ValidateRequest(model.Base);
+                _requestService.ValidateRequest(model.Date);
+                var currencies = await _exchangeRatesClient.GetHistoricalCurrencies(_apiKey, model.Base.ToUpper(), model.Date, model.Symbols?.ToUpper());
                 return Ok(currencies);
             }
             catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -50,24 +67,29 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
         {
             try
             {
-                if(type.ToLower() == "fiat" || type.ToLower() == "crypto")
-                {
-                    var currencies = await _exchangeRatesClient.GetAvailableCurrencies(_apiKey, type);
-                    return Ok(currencies);
-                }
-                throw new Exception($"Type can only be fiat or crypto, type: {type}");
+                _requestService.ValidateType(type, _availableTypes);
+                var currencies = await _exchangeRatesClient.GetAvailableCurrencies(_apiKey, type);
+                return Ok(currencies);
             }
             catch (ApiException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpPost("convert")]
         public async Task<IActionResult> ConvertAmount(ExchangeAmountRequestDto model)
         {
             try
             {
+                _requestService.ValidateRequest(model.From);
+                _requestService.ValidateRequest(model.To);
+                _requestService.ValidateRequest(model.Amount);
                 var conversion = await _exchangeRatesClient.ConvertAmount(_apiKey, model.From.ToUpper(), model.To.ToUpper(), model.Amount);
                 return Ok(conversion);
             }

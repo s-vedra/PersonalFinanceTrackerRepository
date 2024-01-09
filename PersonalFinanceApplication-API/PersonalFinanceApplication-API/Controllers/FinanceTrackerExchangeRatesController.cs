@@ -32,12 +32,12 @@ namespace PersonalFinanceApplication_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("historical-currencies/{base}/{date}")]
-        public async Task<IActionResult> GetHistoricalCurrencies(string @base, string date, [FromQuery] string? symbols)
+        [HttpPost("historical-currencies")]
+        public async Task<IActionResult> GetHistoricalCurrencies(HistoricalCurrenciesRequestDto request)
         {
             try
             {
-                var result = await _proxyApi.GetHistoricalCurrencies(@base.ToUpper(), date, symbols?.ToUpper());
+                var result = await _proxyApi.GetHistoricalCurrencies(request);
                 return Ok(result);
             }
             catch (ApiException ex)

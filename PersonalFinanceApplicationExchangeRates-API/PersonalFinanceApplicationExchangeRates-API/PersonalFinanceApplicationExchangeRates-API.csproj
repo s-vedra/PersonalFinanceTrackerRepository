@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PersonalFinanceApplication-DtoModels\PersonalFinanceApplication-DtoModels.csproj" />
+    <ProjectReference Include="..\PFA-Services\PFA-Services.csproj" />
   </ItemGroup>
 
 </Project>

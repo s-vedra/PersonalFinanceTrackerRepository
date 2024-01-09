@@ -1,4 +1,5 @@
 using PersonalFinanceApplicationExchangeRates_API.RefitSettings;
+using PFA_Services.RequestService;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(x => RestService.For<IExchangeRatesClient>(builder.Configuration["ApiSettings:ExchangeRatesApi"]));
+builder.Services.AddScoped<IRequestService, RequestService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

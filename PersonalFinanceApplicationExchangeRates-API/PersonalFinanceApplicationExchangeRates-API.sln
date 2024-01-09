@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFinanceApplicationE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFinanceApplication-DtoModels", "PersonalFinanceApplication-DtoModels\PersonalFinanceApplication-DtoModels.csproj", "{C50D1DCA-72DD-4859-B008-BDB9749966C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-Services", "PFA-Services\PFA-Services.csproj", "{3648D01B-6AFB-41B8-B1EB-1FEAF0C95340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C50D1DCA-72DD-4859-B008-BDB9749966C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C50D1DCA-72DD-4859-B008-BDB9749966C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C50D1DCA-72DD-4859-B008-BDB9749966C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3648D01B-6AFB-41B8-B1EB-1FEAF0C95340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3648D01B-6AFB-41B8-B1EB-1FEAF0C95340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3648D01B-6AFB-41B8-B1EB-1FEAF0C95340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3648D01B-6AFB-41B8-B1EB-1FEAF0C95340}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
