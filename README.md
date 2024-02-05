@@ -22,6 +22,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive API designed to hel
 
 - **N-Tier Architecture:** Structuring the application using the N-Tier architecture, promoting scalability and separation of concerns.
 
+- **CQRS (Command Query Responsibility Segregation):** Implementing CQRS to separate the read and write operations, enhancing system performance and scalability.
+
 ## Client Side
 The client-side development is currently in progress, bringing a user-friendly interface to interact with the Personal Finance Tracker API.
 
