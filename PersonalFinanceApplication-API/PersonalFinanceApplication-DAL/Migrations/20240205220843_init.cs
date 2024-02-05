@@ -20,9 +20,10 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Account = table.Column<int>(type: "int", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
-                    Purpose = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Purpose = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,6 +41,7 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     Category = table.Column<int>(type: "int", nullable: false),
                     Purpose = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -49,8 +51,8 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Income",
-                columns: new[] { "IncomeId", "Account", "Amount", "Category", "Date", "Note", "Purpose" },
-                values: new object[] { 1, 2, 20000m, 2, new DateTime(2023, 11, 14, 0, 0, 0, 0, DateTimeKind.Local), null, null });
+                columns: new[] { "IncomeId", "Account", "Amount", "Category", "Currency", "Date", "Note", "Purpose" },
+                values: new object[] { 1, 2, 20000m, 2, "MKD", new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Local), null, null });
         }
 
         /// <inheritdoc />

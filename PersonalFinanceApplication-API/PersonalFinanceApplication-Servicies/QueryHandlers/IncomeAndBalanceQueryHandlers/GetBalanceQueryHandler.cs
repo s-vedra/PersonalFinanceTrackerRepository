@@ -8,6 +8,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
 {
     public class GetBalanceQuery : IRequest<BalanceDto>
     {
+        public string Currency { get; set; }
     }
 
     public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, BalanceDto>
@@ -22,8 +23,9 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
 
         public async Task<BalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
-            var incomes = _incomeRepository.GetAllEntities();
-            var expenses = _expenseRepository.GetAllEntities();
+            var incomes = _incomeRepository.GetAllEntities().Where(x => x.Currency.ToLower().Equals(request.Currency.ToLower()));
+            var expenses = _expenseRepository.GetAllEntities().Where(x => x.Currency.ToLower().Equals(request.Currency.ToLower()));
+
             if (!incomes.Any() && !expenses.Any())
             {
                 throw new CoreException("You dont't have balance on your account");
@@ -35,6 +37,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
             var balanceDto = new BalanceDto
             {
                 Amount = incomeBalance.Subtract(expenseBalance),
+                Currency = request.Currency,
                 LastDateAddedMoney = incomes.Last().Date,
                 LastDateDrawMoney = expenses.Last().Date
             };

@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(x => RestService.For<IExchangeRatesClient>(builder.Configuration["ApiSettings:ExchangeRatesApi"]));
+builder.Services.AddScoped(x => RestService.For<ICurrenciesClient>(builder.Configuration["ApiSettings:CurrenciesApi"]));
 builder.Services.AddScoped<IRequestService, RequestService>();
 var app = builder.Build();
 

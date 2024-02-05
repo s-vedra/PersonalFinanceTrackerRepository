@@ -23,7 +23,8 @@ namespace PersonalFinanceApplication_DAL
                 Date = DateTime.Today,
                 Account = Account.Card,
                 Category = IncomeCategory.Salary,
-                Amount = 20000
+                Amount = 20000,
+                Currency = "MKD"
             };
 
             modelBuilder.Entity<Income>()

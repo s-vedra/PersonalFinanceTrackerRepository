@@ -15,6 +15,7 @@ namespace PersonalFinanceApplication_DTO.DtoModels
         public ExpenseCategory Category { get; set; }
         public string Purpose { get; set; }
         public decimal Amount { get; set; }
+        public string Currency { get; set; }
         public string Note { get; set; }
     }
 }

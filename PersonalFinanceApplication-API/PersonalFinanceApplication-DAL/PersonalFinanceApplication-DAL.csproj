@@ -20,4 +20,8 @@
     <ProjectReference Include="..\PersonalFinanceApplication-Exceptions\PersonalFinanceApplication-Exceptions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

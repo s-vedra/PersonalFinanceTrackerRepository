@@ -12,8 +12,8 @@ using PersonalFinanceApplication_DAL;
 namespace PersonalFinanceApplication_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231114215411_change-expense")]
-    partial class changeexpense
+    [Migration("20240205220843_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,10 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("int");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -73,6 +77,10 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -93,7 +101,8 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             Account = 2,
                             Amount = 20000m,
                             Category = 2,
-                            Date = new DateTime(2023, 11, 14, 0, 0, 0, 0, DateTimeKind.Local)
+                            Currency = "MKD",
+                            Date = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 #pragma warning restore 612, 618

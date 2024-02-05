@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using PersonalFinanceApplication_DtoModels.RequestModels;
 using PersonalFinanceApplicationExchangeRates_API.Models;
 using PersonalFinanceApplicationExchangeRates_API.RefitSettings;
@@ -12,12 +13,14 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
     public class FinanceTrackerExchangeRatesController : ControllerBase
     {
         private readonly IExchangeRatesClient _exchangeRatesClient;
+        private readonly ICurrenciesClient _currenciesClient;
         private readonly string _apiKey;
         private readonly IRequestService _requestService;
         private readonly IList<string> _availableTypes;
-        public FinanceTrackerExchangeRatesController(IExchangeRatesClient exchangeRatesClient, IConfiguration configuration, IRequestService requestService)
+        public FinanceTrackerExchangeRatesController(IExchangeRatesClient exchangeRatesClient, ICurrenciesClient currenciesClient, IConfiguration configuration, IRequestService requestService)
         {
             _exchangeRatesClient = exchangeRatesClient;
+            _currenciesClient = currenciesClient;
             _apiKey = configuration["ApiSettings:ApiKey"];
             _availableTypes = configuration.GetSection("ApiSettings:AvailableCurrencyTypes").Get<string[]>();
             _requestService = requestService;
@@ -92,6 +95,24 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
                 _requestService.ValidateRequest(model.Amount);
                 var conversion = await _exchangeRatesClient.ConvertAmount(_apiKey, model.From.ToUpper(), model.To.ToUpper(), model.Amount);
                 return Ok(conversion);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("currencies")]
+        public async Task<IActionResult> GetAllCurrencies()
+        {
+            try
+            {
+                var currencies = await _currenciesClient.GetAllCurrencies();
+                return Ok(currencies);
             }
             catch (ApiException ex)
             {

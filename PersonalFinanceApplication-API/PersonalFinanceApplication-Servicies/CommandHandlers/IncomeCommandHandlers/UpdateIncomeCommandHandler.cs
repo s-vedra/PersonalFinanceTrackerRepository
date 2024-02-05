@@ -18,6 +18,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
         {
             RuleFor(income => income.IncomeDto.IncomeId).NotNull().NotEmpty();
             RuleFor(income => income.IncomeDto.Amount).NotEmpty().NotNull().GreaterThan(0);
+            RuleFor(income => income.IncomeDto.Currency).NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Account).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Category).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Purpose).NotEmpty().NotNull();

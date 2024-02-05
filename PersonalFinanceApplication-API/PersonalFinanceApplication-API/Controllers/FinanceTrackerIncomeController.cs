@@ -16,12 +16,12 @@ namespace PersonalFinanceApplication_API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("balance")]
-        public async Task<IActionResult> GetBalance()
+        [HttpGet("balance/{currency}")]
+        public async Task<IActionResult> GetBalance(string currency)
         {
             try
             {
-                var balance = await _mediator.Send(new GetBalanceQuery());
+                var balance = await _mediator.Send(new GetBalanceQuery() { Currency = currency});
                 return Ok(balance);
             }
             catch (ValidationException ex)

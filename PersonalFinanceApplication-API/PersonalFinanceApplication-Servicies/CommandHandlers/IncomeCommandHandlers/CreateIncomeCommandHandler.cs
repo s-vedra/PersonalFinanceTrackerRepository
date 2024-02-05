@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Mappers.IncomeMappers;
 
@@ -16,6 +17,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
         public CreateIncomeValidator()
         {
             RuleFor(income => income.IncomeDto.Amount).NotEmpty().NotNull();
+            RuleFor(income => income.IncomeDto.Currency).NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Account).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Category).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Purpose).NotEmpty().NotNull();

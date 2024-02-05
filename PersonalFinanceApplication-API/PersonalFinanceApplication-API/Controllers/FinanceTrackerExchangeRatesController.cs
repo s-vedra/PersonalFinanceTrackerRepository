@@ -85,5 +85,23 @@ namespace PersonalFinanceApplication_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("currencies")]
+        public async Task<IActionResult> GetAllCurrencies()
+        {
+            try
+            {
+                var result = await _proxyApi.GetAllCurrencies();
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

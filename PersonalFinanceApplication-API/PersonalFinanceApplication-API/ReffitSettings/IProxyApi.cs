@@ -17,5 +17,8 @@ namespace PersonalFinanceApplication_API.ReffitSettings
 
         [Post("/api/exchange-rates/convert")]
         public Task<CurrencyConversionResponseDto> ConvertAmount(ExchangeAmountRequestDto request);
+
+        [Get("/api/exchange-rates/currencies")]
+        public Task<string> GetAllCurrencies();
     }
 }

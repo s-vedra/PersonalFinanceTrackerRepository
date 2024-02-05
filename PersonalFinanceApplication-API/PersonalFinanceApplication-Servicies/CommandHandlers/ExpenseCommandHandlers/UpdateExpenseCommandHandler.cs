@@ -18,6 +18,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHand
         {
             RuleFor(expense => expense.ExpenseDto.ExpenseId).NotNull().NotEmpty();
             RuleFor(expense => expense.ExpenseDto.Amount).NotEmpty().NotNull().GreaterThan(0);
+            RuleFor(expense => expense.ExpenseDto.Currency).NotEmpty().NotNull();
             RuleFor(expense => expense.ExpenseDto.Account).IsInEnum().NotEmpty().NotNull();
             RuleFor(expense => expense.ExpenseDto.Category).IsInEnum().NotEmpty().NotNull();
             RuleFor(expense => expense.ExpenseDto.Purpose).NotEmpty().NotNull();
