@@ -11,7 +11,7 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 
 - **Exchange Rates:** Utilize a proxy API to obtain the most recent exchange rates, providing you with up-to-date currency conversion information.
 
-- **Expense Management:** Seamlessly analyze your financial data and generate insights to make informed decisions based on detailed reports and statistics.
+- **Analyzing Service:** Seamlessly analyze your financial data and generate insights to make informed decisions based on detailed reports and statistics.
 
 ## Technologies Used
 - **.NET Core:** The foundation of the application, ensuring cross-platform compatibility and high-performance execution.
