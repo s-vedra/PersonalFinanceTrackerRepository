@@ -1,6 +1,6 @@
 # Personal Finance Tracker
 
-Welcome to the **Personal Finance Tracker**, a comprehensive API designed to help you manage your personal finances effortlessly. Whether you want to keep track of your expenses, monitor your incomes, check your balance, or stay updated on the latest exchange rates, this API has got you covered.
+Welcome to the **Personal Finance Tracker**, a comprehensive software application designed to help you manage your personal finances effortlessly. Whether you want to keep track of your expenses, monitor your incomes, check your balance, or stay updated on the latest exchange rates, this application has got you covered.
 
 ## Features
 - **Expense Management:** Add your expenses with ease, categorize them, and keep a detailed record of your spending habits.
