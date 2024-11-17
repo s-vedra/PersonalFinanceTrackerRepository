@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
-using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Mappers.IncomeMappers;
 

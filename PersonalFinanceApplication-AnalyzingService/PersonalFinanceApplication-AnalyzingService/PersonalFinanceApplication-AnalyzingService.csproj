@@ -4,17 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>PersonalFinanceApplicationExchangeRates_API</RootNamespace>
+    <RootNamespace>PersonalFinanceApplication_AnalyzingService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PersonalFinanceApplication-DtoModels\PersonalFinanceApplication-DtoModels.csproj" />
+    <ProjectReference Include="..\PFA-MBService\PFA-MBService.csproj" />
     <ProjectReference Include="..\PFA-Services\PFA-Services.csproj" />
   </ItemGroup>
 

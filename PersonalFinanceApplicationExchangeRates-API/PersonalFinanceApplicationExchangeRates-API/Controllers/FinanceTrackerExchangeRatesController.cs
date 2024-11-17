@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using PersonalFinanceApplication_DtoModels.RequestModels;
 using PersonalFinanceApplicationExchangeRates_API.Models;
 using PersonalFinanceApplicationExchangeRates_API.RefitSettings;
@@ -111,7 +111,7 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
         {
             try
             {
-                var currencies = await _currenciesClient.GetAllCurrencies();
+                var currencies = JsonConvert.DeserializeObject<Dictionary<string, string>>(await _currenciesClient.GetAllCurrencies());
                 return Ok(currencies);
             }
             catch (ApiException ex)

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFinanceApplication-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFinanceApplication-DTO", "PersonalFinanceApplication-DTO\PersonalFinanceApplication-DTO.csproj", "{324A0073-AF87-4963-97F3-40F5E02E570B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalFinanceApplication-MBService", "PersonalFinanceApplication-MBService\PersonalFinanceApplication-MBService.csproj", "{A8E98249-9FF1-4A4E-AD03-C9DE5095E765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{324A0073-AF87-4963-97F3-40F5E02E570B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{324A0073-AF87-4963-97F3-40F5E02E570B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{324A0073-AF87-4963-97F3-40F5E02E570B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E98249-9FF1-4A4E-AD03-C9DE5095E765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E98249-9FF1-4A4E-AD03-C9DE5095E765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E98249-9FF1-4A4E-AD03-C9DE5095E765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E98249-9FF1-4A4E-AD03-C9DE5095E765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

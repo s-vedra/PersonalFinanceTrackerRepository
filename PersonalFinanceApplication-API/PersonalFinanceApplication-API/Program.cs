@@ -6,6 +6,8 @@ using PersonalFinanceApplication_DAL;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DAL.Implementation;
 using PersonalFinanceApplication_DTO.DtoModels;
+using PersonalFinanceApplication_MBService.ProducerService;
+using PersonalFinanceApplication_MBService.ServiceProperties;
 using PersonalFinanceApplication_Services.CommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
@@ -65,6 +67,13 @@ builder.Services.AddScoped<IValidator<DeleteIncomeCommand>, DeleteIncomeValidato
 builder.Services.AddScoped<IValidator<UpdateIncomeCommand>, UpdateIncomeValidator>();
 builder.Services.AddScoped<IValidator<GetExpenseQuery>, GetExpenseValidator>();
 builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
+
+//services
+builder.Services.AddScoped<IProducerService, ProducerService>();
+
+//rabbitMQSConfig
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 
 
 //refit settings

@@ -32,6 +32,7 @@ namespace PersonalFinanceApplication_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost("historical-currencies")]
         public async Task<IActionResult> GetHistoricalCurrencies(HistoricalCurrenciesRequestDto request)
         {
