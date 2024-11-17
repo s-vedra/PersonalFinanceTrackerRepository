@@ -11,6 +11,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive API designed to hel
 
 - **Exchange Rates:** Utilize a proxy API to obtain the most recent exchange rates, providing you with up-to-date currency conversion information.
 
+- **Expense Management:** Seamlessly analyze your financial data and generate insights to make informed decisions based on detailed reports and statistics.
+
 ## Technologies Used
 - **.NET Core:** The foundation of the application, ensuring cross-platform compatibility and high-performance execution.
 
@@ -23,6 +25,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive API designed to hel
 - **N-Tier Architecture:** Structuring the application using the N-Tier architecture, promoting scalability and separation of concerns.
 
 - **CQRS (Command Query Responsibility Segregation):** Implementing CQRS to separate the read and write operations, enhancing system performance and scalability.
+  
+- **RabbitMQ**: Utilizing RabbitMQ as a message broker to facilitate asynchronous communication between microservices, ensuring decoupling of services, reliable message delivery, and efficient handling of high-volume transactions.
 
 ## Client Side
 The client-side development is currently in progress, bringing a user-friendly interface to interact with the Personal Finance Tracker API.
