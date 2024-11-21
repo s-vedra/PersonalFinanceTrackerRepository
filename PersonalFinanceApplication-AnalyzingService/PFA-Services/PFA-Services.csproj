@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PFA-DAL\PFA-DAL.csproj" />
+    <ProjectReference Include="..\PFA-DTO\PFA-DTO.csproj" />
+    <ProjectReference Include="..\PFA-Mappers\PFA-Mappers.csproj" />
     <ProjectReference Include="..\PFA-MBService\PFA-MBService.csproj" />
   </ItemGroup>
 

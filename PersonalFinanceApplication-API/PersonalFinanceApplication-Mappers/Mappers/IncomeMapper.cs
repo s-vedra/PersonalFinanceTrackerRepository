@@ -1,7 +1,7 @@
 ﻿using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 
-namespace PersonalFinanceApplication_Mappers.IncomeMappers
+namespace PersonalFinanceApplication_Mappers.Mappers
 {
     public static class IncomeMapper
     {
@@ -10,13 +10,14 @@ namespace PersonalFinanceApplication_Mappers.IncomeMappers
             return new IncomeDto
             {
                 IncomeId = income.IncomeId,
-                Account = income.Account, 
+                Account = income.Account,
                 Amount = income.Amount,
                 Currency = income.Currency,
-                Category = income.Category, 
-                Date = income.Date, 
-                Note = income.Note, 
-                Purpose = income.Purpose
+                Category = income.Category,
+                Date = income.Date,
+                Note = income.Note,
+                Purpose = income.Purpose,
+                UserContractId = income.UserContractId
             };
         }
 
@@ -31,7 +32,8 @@ namespace PersonalFinanceApplication_Mappers.IncomeMappers
                 Category = income.Category,
                 Date = income.Date,
                 Note = income.Note,
-                Purpose = income.Purpose
+                Purpose = income.Purpose,
+                UserContractId = income.UserContractId
             };
         }
     }

@@ -6,12 +6,12 @@ using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers
 {
-    public class GetBalanceQuery : IRequest<BalanceDto>
+    public class GetBalanceQuery : IRequest<AccountBalanceDto>
     {
         public string Currency { get; set; }
     }
 
-    public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, BalanceDto>
+    public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, AccountBalanceDto>
     {
         private readonly IIncomeRepository _incomeRepository;
         private readonly IExpenseRepository _expenseRepository;
@@ -21,7 +21,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
             _expenseRepository = expenseRepository;
         }
 
-        public async Task<BalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
+        public async Task<AccountBalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
             var incomes = _incomeRepository.GetAllEntities().Where(x => x.Currency.ToLower().Equals(request.Currency.ToLower()));
             var expenses = _expenseRepository.GetAllEntities().Where(x => x.Currency.ToLower().Equals(request.Currency.ToLower()));
@@ -34,7 +34,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
             var incomeBalance = incomes.Select(x => x.Amount).Sum();
             var expenseBalance = expenses.Select(x => x.Amount).Sum();
 
-            var balanceDto = new BalanceDto
+            var balanceDto = new AccountBalanceDto
             {
                 Amount = incomeBalance.Subtract(expenseBalance),
                 Currency = request.Currency,

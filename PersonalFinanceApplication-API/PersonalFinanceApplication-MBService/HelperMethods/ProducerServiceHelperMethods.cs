@@ -1,4 +1,5 @@
-﻿using PersonalFinanceApplication_MBService.ServiceProperties;
+﻿using Newtonsoft.Json;
+using PersonalFinanceApplication_MBService.ServiceProperties;
 using RabbitMQ.Client;
 
 namespace PersonalFinanceApplication_MBService.HelperMethods
@@ -14,6 +15,11 @@ namespace PersonalFinanceApplication_MBService.HelperMethods
                 UserName = settings.UserName,
                 Password = settings.Password
             };
+        }
+
+        public static string ConvertToJson<T>(this T dto)
+        {
+            return JsonConvert.SerializeObject(dto);
         }
     }
 }

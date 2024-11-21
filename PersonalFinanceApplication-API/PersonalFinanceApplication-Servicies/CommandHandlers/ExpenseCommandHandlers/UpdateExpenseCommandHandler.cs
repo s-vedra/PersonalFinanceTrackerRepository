@@ -3,7 +3,7 @@ using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
-using PersonalFinanceApplication_Mappers.ExpenseMapper;
+using PersonalFinanceApplication_Mappers.Mappers;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers
 {

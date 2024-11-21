@@ -2,7 +2,6 @@
 using PFA_MBService.HelperMethods;
 using PFA_MBService.ServiceProperties;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace PFA_MBService.ConsumerService
@@ -24,19 +23,16 @@ namespace PFA_MBService.ConsumerService
             _channel.QueueDeclare(queue: _settings.AnalyzingQueue, durable: true, exclusive: false, autoDelete: false);
         }
 
-        public void RecieveMessageFromAnalyzingQueue()
+        public string RecieveMessageFromAnalyzingQueue()
         {
-            var consumer = new EventingBasicConsumer(_channel);
+            var result = _channel.BasicGet(queue: _settings.AnalyzingQueue, autoAck: true);
+            if (result == null)
+                return string.Empty;
 
-            consumer.Received += (model, ea) =>
-            {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-            };
-
-            _channel.BasicConsume(queue: _settings.AnalyzingQueue,
-                                 autoAck: true,
-                                 consumer: consumer);
+            var body = result.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+            Console.WriteLine(message);
+            return Encoding.UTF8.GetString(body);
         }
     }
 }

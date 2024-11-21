@@ -2,7 +2,7 @@
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
-using PersonalFinanceApplication_Mappers.IncomeMappers;
+using PersonalFinanceApplication_Mappers.Mappers;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers
 {

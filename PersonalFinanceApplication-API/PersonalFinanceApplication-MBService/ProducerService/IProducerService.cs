@@ -2,6 +2,6 @@
 {
     public interface IProducerService
     {
-        void PublishMessageToAnalyzingQueue(string request);
+        void PublishMessageToAnalyzingQueue<T>(T request);
     }
 }

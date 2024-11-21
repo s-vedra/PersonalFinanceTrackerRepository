@@ -1,9 +1,4 @@
 ﻿using PersonalFinanceApplication_DomainModels.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonalFinanceApplication_DTO.DtoModels
 {
@@ -17,5 +12,6 @@ namespace PersonalFinanceApplication_DTO.DtoModels
         public decimal Amount { get; set; }
         public string Currency { get; set; }
         public string Note { get; set; }
+        public int UserContractId { get; set; }
     }
 }

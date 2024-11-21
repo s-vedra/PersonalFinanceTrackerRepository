@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>PFA_Mappers</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PFA-DM\PFA-DM.csproj" />
+    <ProjectReference Include="..\PFA-DTO\PFA-DTO.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalFinanceApplication-AnalyzingService", "PersonalFinanceApplication-AnalyzingService\PersonalFinanceApplication-AnalyzingService.csproj", "{F8655C11-FF83-49B4-BEAA-818AB0C12771}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFinanceApplication-AnalyzingService", "PersonalFinanceApplication-AnalyzingService\PersonalFinanceApplication-AnalyzingService.csproj", "{F8655C11-FF83-49B4-BEAA-818AB0C12771}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-MBService", "PFA-MBService\PFA-MBService.csproj", "{61825F02-8E41-4B0A-92F5-0CB51E1F95F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PFA-MBService", "PFA-MBService\PFA-MBService.csproj", "{61825F02-8E41-4B0A-92F5-0CB51E1F95F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-Services", "PFA-Services\PFA-Services.csproj", "{C0F9BA5F-087F-44B7-B170-C35FF6875ED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PFA-Services", "PFA-Services\PFA-Services.csproj", "{C0F9BA5F-087F-44B7-B170-C35FF6875ED4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PFA-DTO", "PFA-DTO\PFA-DTO.csproj", "{5491024C-C1BF-46B0-A06E-F47D61857750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-DAL", "PFA-DAL\PFA-DAL.csproj", "{728D3D24-08EA-46AC-886B-4017C0B93CC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-DM", "PFA-DM\PFA-DM.csproj", "{EFB1E4E6-3EAA-4692-BC15-2C0E1DBDC1EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFA-Mappers", "PFA-Mappers\PFA-Mappers.csproj", "{94702596-BCE2-4C96-BB58-D645D61D2582}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +35,22 @@ Global
 		{C0F9BA5F-087F-44B7-B170-C35FF6875ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0F9BA5F-087F-44B7-B170-C35FF6875ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0F9BA5F-087F-44B7-B170-C35FF6875ED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5491024C-C1BF-46B0-A06E-F47D61857750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5491024C-C1BF-46B0-A06E-F47D61857750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5491024C-C1BF-46B0-A06E-F47D61857750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5491024C-C1BF-46B0-A06E-F47D61857750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{728D3D24-08EA-46AC-886B-4017C0B93CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{728D3D24-08EA-46AC-886B-4017C0B93CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{728D3D24-08EA-46AC-886B-4017C0B93CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{728D3D24-08EA-46AC-886B-4017C0B93CC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB1E4E6-3EAA-4692-BC15-2C0E1DBDC1EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB1E4E6-3EAA-4692-BC15-2C0E1DBDC1EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB1E4E6-3EAA-4692-BC15-2C0E1DBDC1EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB1E4E6-3EAA-4692-BC15-2C0E1DBDC1EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94702596-BCE2-4C96-BB58-D645D61D2582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94702596-BCE2-4C96-BB58-D645D61D2582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94702596-BCE2-4C96-BB58-D645D61D2582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94702596-BCE2-4C96-BB58-D645D61D2582}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

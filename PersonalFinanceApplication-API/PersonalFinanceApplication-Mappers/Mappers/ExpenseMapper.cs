@@ -1,7 +1,7 @@
 ﻿using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 
-namespace PersonalFinanceApplication_Mappers.ExpenseMapper
+namespace PersonalFinanceApplication_Mappers.Mappers
 {
     public static class ExpenseMapper
     {
@@ -16,7 +16,8 @@ namespace PersonalFinanceApplication_Mappers.ExpenseMapper
                 Category = expense.Category,
                 Date = expense.Date,
                 Note = expense.Note,
-                Purpose = expense.Purpose
+                Purpose = expense.Purpose,
+                UserContractId = expense.UserContractId
             };
         }
 
@@ -31,7 +32,8 @@ namespace PersonalFinanceApplication_Mappers.ExpenseMapper
                 Category = expense.Category,
                 Date = expense.Date,
                 Note = expense.Note,
-                Purpose = expense.Purpose
+                Purpose = expense.Purpose,
+                UserContractId = expense.UserContractId
             };
         }
     }

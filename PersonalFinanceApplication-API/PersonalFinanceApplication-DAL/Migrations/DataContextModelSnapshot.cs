@@ -52,7 +52,12 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     b.Property<string>("Purpose")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserContractId")
+                        .HasColumnType("int");
+
                     b.HasKey("ExpenseId");
+
+                    b.HasIndex("UserContractId");
 
                     b.ToTable("Expenses");
                 });
@@ -87,7 +92,12 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     b.Property<string>("Purpose")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserContractId")
+                        .HasColumnType("int");
+
                     b.HasKey("IncomeId");
+
+                    b.HasIndex("UserContractId");
 
                     b.ToTable("Income", (string)null);
 
@@ -99,8 +109,126 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             Amount = 20000m,
                             Category = 2,
                             Currency = "MKD",
-                            Date = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Local)
+                            Date = new DateTime(2024, 11, 21, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserContractId = 1
                         });
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            FirstName = "admin",
+                            LastName = "admin",
+                            Password = "admin123",
+                            UserName = "admin@admin"
+                        });
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.UserContract", b =>
+                {
+                    b.Property<int>("UserContractId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserContractId"));
+
+                    b.Property<int>("AccountBalanceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContractType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserContractId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserContract", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserContractId = 1,
+                            AccountBalanceId = 1,
+                            ContractType = 1,
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.Expense", b =>
+                {
+                    b.HasOne("PersonalFinanceApplication_DomainModels.Models.UserContract", "UserContract")
+                        .WithMany("Expenses")
+                        .HasForeignKey("UserContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserContract");
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.Income", b =>
+                {
+                    b.HasOne("PersonalFinanceApplication_DomainModels.Models.UserContract", "UserContract")
+                        .WithMany("Incomes")
+                        .HasForeignKey("UserContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserContract");
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.UserContract", b =>
+                {
+                    b.HasOne("PersonalFinanceApplication_DomainModels.Models.User", "User")
+                        .WithMany("UserContracts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.User", b =>
+                {
+                    b.Navigation("UserContracts");
+                });
+
+            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.UserContract", b =>
+                {
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Incomes");
                 });
 #pragma warning restore 612, 618
         }

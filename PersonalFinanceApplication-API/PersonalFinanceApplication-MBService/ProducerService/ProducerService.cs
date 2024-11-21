@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PersonalFinanceApplication_MBService.HelperMethods;
 using PersonalFinanceApplication_MBService.ServiceProperties;
-using PersonalFinanceApplication_Services.ExtensionMethods;
 using RabbitMQ.Client;
 using System.Text;
 
@@ -23,7 +22,7 @@ namespace PersonalFinanceApplication_MBService.ProducerService
             _channel.QueueDeclare(queue: _settings.AnalyzingQueue, durable: true, exclusive: false, autoDelete: false);
         }
 
-        public void PublishMessageToAnalyzingQueue(string request)
+        public void PublishMessageToAnalyzingQueue<T>(T request)
         {
             var message = request.ConvertToJson();
             var body = Encoding.UTF8.GetBytes(message);

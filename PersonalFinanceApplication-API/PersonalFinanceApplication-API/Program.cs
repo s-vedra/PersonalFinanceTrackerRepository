@@ -14,6 +14,7 @@ using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
+using PersonalFinanceApplication_Services.NotificationHandler;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,9 @@ builder.Services.AddSwaggerGen();
 //repositories
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+//builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
+builder.Services.AddScoped<IUserContractRepository, UserContractRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //command handlers
 builder.Services.AddScoped<IRequestHandler<CreateExpenseCommand, int>, CreateExpenseCommandHandler>();
@@ -51,7 +55,7 @@ builder.Services.AddScoped<IRequestHandler<UpdateExpenseCommand>, UpdateExpenseC
 builder.Services.AddScoped<IRequestHandler<UpdateIncomeCommand>, UpdateIncomeCommandHandler>();
 
 //query handlers
-builder.Services.AddScoped<IRequestHandler<GetBalanceQuery, BalanceDto>, GetBalanceQueryHandler>();
+builder.Services.AddScoped<IRequestHandler<GetBalanceQuery, AccountBalanceDto>, GetBalanceQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<GetExpenseQuery, ExpenseDto>, GetExpenseQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<GetIncomeQuery, IncomeDto>, GetIncomeQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<GetExpensesQuery, List<ExpenseDto>>, GetExpensesQueryHandler>();
@@ -69,7 +73,7 @@ builder.Services.AddScoped<IValidator<GetExpenseQuery>, GetExpenseValidator>();
 builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 
 //services
-builder.Services.AddScoped<IProducerService, ProducerService>();
+builder.Services.AddSingleton<IProducerService, ProducerService>();
 
 //rabbitMQSConfig
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
@@ -84,7 +88,12 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(BalanceChangeEventHandler).Assembly);
+});
+
 
 var app = builder.Build();
 

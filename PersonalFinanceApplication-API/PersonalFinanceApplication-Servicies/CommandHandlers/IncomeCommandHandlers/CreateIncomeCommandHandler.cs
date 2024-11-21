@@ -1,8 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_DomainModels.Enums;
+using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
-using PersonalFinanceApplication_Mappers.IncomeMappers;
+using PersonalFinanceApplication_DTO.NotificationModels;
+using PersonalFinanceApplication_Mappers.Mappers;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
 {
@@ -26,20 +29,44 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
     public class CreateIncomeCommandHandler : IRequestHandler<CreateIncomeCommand, int>
     {
         private readonly IIncomeRepository _incomeRepository;
-        public CreateIncomeCommandHandler(IIncomeRepository incomeRepository)
+        private readonly IUserContractRepository _userContractRepository;
+        private readonly IMediator _mediator;
+        public CreateIncomeCommandHandler(IIncomeRepository incomeRepository,
+            IUserContractRepository userContractRepository,
+            IMediator mediator)
         {
             _incomeRepository = incomeRepository;
+            _userContractRepository = userContractRepository;
+            _mediator = mediator;
         }
 
         public async Task<int> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)
         {
+            var userContract = _userContractRepository.GetEntity(request.IncomeDto.UserContractId);
             var validator = new CreateIncomeValidator();
             validator.ValidateAndThrow(request);
 
             var income = request.IncomeDto.ToModel();
             _incomeRepository.AddEntity(income);
+            await PublishBalanceChangedEvent(userContract, income);
 
             return income.IncomeId;
+        }
+
+        private async Task PublishBalanceChangedEvent(UserContract userContract, Income income)
+        {
+            var notification = new BalanceChangedEvent()
+            {
+                UserContract = userContract.ToDto(),
+                Account = income.Account,
+                Amount = income.Amount,
+                IncomeCategory = income.Category,
+                Date = income.Date,
+                Income = income.ToDto(),
+                UserId = userContract.UserId,
+                TransactionType = TransactionType.Income
+            };
+            await _mediator.Publish(notification);
         }
     }
 }

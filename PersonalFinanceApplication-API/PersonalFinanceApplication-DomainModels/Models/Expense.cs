@@ -12,5 +12,7 @@ namespace PersonalFinanceApplication_DomainModels.Models
         public decimal Amount { get; set; }
         public string Currency { get; set; }
         public string Note { get; set; }
+        public int UserContractId { get; set; }
+        public UserContract UserContract { get; set; }
     }
 }
