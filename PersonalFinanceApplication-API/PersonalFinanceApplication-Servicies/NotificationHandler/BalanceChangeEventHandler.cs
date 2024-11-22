@@ -14,7 +14,7 @@ namespace PersonalFinanceApplication_Services.NotificationHandler
 
         public Task Handle(BalanceChangedEvent notification, CancellationToken cancellationToken)
         {
-            _producerService.PublishMessageToAnalyzingQueue(notification);
+            _producerService.PublishMessageToUpdateBalanceQueue(notification);
             return Task.CompletedTask;
         }
     }

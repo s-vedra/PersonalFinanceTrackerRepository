@@ -28,7 +28,7 @@ namespace PFA_Services.AnalyzingService
 
                     try
                     {
-                        var response = consumerService.RecieveMessageFromAnalyzingQueue();
+                        var response = consumerService.RecieveMessageFromUpdateBalanceQueue();
                         if (!string.IsNullOrEmpty(response))
                         {
                             balanceProcessingService.SyncBalanceToAccount(response);

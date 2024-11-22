@@ -2,6 +2,6 @@
 {
     public interface IConsumerService
     {
-        string RecieveMessageFromAnalyzingQueue();
+        string RecieveMessageFromUpdateBalanceQueue();
     }
 }

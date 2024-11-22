@@ -2,6 +2,6 @@
 {
     public interface IProducerService
     {
-        void PublishMessageToAnalyzingQueue<T>(T request);
+        void PublishMessageToUpdateBalanceQueue<T>(T request);
     }
 }

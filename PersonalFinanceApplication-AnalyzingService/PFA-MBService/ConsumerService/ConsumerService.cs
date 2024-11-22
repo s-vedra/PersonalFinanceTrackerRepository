@@ -20,12 +20,12 @@ namespace PFA_MBService.ConsumerService
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(queue: _settings.AnalyzingQueue, durable: true, exclusive: false, autoDelete: false);
+            _channel.QueueDeclare(queue: _settings.UpdateBalanceQueue, durable: true, exclusive: false, autoDelete: false);
         }
 
-        public string RecieveMessageFromAnalyzingQueue()
+        public string RecieveMessageFromUpdateBalanceQueue()
         {
-            var result = _channel.BasicGet(queue: _settings.AnalyzingQueue, autoAck: true);
+            var result = _channel.BasicGet(queue: _settings.UpdateBalanceQueue, autoAck: true);
             if (result == null)
                 return string.Empty;
 

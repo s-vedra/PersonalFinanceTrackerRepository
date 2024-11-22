@@ -19,16 +19,16 @@ namespace PersonalFinanceApplication_MBService.ProducerService
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(queue: _settings.AnalyzingQueue, durable: true, exclusive: false, autoDelete: false);
+            _channel.QueueDeclare(queue: _settings.UpdateBalanceQueue, durable: true, exclusive: false, autoDelete: false);
         }
 
-        public void PublishMessageToAnalyzingQueue<T>(T request)
+        public void PublishMessageToUpdateBalanceQueue<T>(T request)
         {
             var message = request.ConvertToJson();
             var body = Encoding.UTF8.GetBytes(message);
 
             _channel.BasicPublish(exchange: _settings.DefaultAnalyzingExchange,
-                             routingKey: _settings.AnalyzingQueue,
+                             routingKey: _settings.UpdateBalanceQueue,
                              basicProperties: null,
                              body: body);
         }
