@@ -3,6 +3,7 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers
 {
@@ -21,7 +22,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
         public async Task<List<IncomeDto>> Handle(GetIncomesQuery request, CancellationToken cancellationToken)
         {
             var incomes = _incomeRepository.GetAllEntities();
-            if (!incomes.Any())
+            if (!incomes.Any() || !incomes.IsNull())
             {
                 throw new CoreException("No incomes found!");
             }

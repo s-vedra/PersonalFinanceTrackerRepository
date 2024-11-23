@@ -1,6 +1,6 @@
 ﻿namespace PersonalFinanceApplication_DomainModels.Enums
 {
-    public enum Account
+    public enum PaymentIssue
     {
         Cash = 1,
         Card

@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_Exceptions.Exceptions;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers
 {
@@ -31,7 +33,14 @@ namespace PersonalFinanceApplication_Services.CommandHandlers
             validator.ValidateAndThrow(request);
 
             var expense = _expenseRepository.GetEntity(request.Id);
-            _expenseRepository.DeleteEntity(expense);
+            if (!expense.IsNull())
+            {
+                _expenseRepository.DeleteEntity(expense);
+            }
+            else
+            {
+                throw new CoreException("No expense found");
+            }
         }
     }
 }

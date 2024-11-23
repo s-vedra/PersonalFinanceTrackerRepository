@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using PFA_DTO.NotificationModels;
+using PFA_DTO.ResponseModels;
+using PFA_Exceptions.Exceptions;
 using PFA_MBService.ConsumerService;
 using PFA_Services.Abstractions;
 
@@ -9,12 +12,10 @@ namespace PFA_Services.AnalyzingService
     public class ListenerService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ILogger<ListenerService> _logger;
 
-        public ListenerService(IServiceProvider serviceProvider, ILogger<ListenerService> logger)
+        public ListenerService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -25,22 +26,31 @@ namespace PFA_Services.AnalyzingService
                 {
                     var consumerService = scope.ServiceProvider.GetRequiredService<IConsumerService>();
                     var balanceProcessingService = scope.ServiceProvider.GetRequiredService<IBalanceProcessingService>();
-
                     try
                     {
                         var response = consumerService.RecieveMessageFromUpdateBalanceQueue();
                         if (!string.IsNullOrEmpty(response))
-                        {
-                            balanceProcessingService.SyncBalanceToAccount(response);
-                        }
+                            BalanceOperationProcess(response, balanceProcessingService);
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Error processing message from queue.");
+                        throw new CoreException(ex, "Something went wrong when receiving the service");
                     }
                 }
-
                 await Task.Delay(5000, stoppingToken);
+            }
+        }
+
+        private void BalanceOperationProcess(string response, IBalanceProcessingService balanceProcessingService)
+        {
+            var balanceOperationProcesser = JsonConvert.DeserializeObject<BalanceOperationProcessor>(response);
+            if (balanceOperationProcesser.BalanceOperation is BalanceOperation.InitializeBalance)
+            {
+                balanceProcessingService.AccountBalanceOpeningService(response);
+            }
+            else if (balanceOperationProcesser.BalanceOperation is BalanceOperation.AdjustBalance)
+            {
+                balanceProcessingService.SyncBalanceToAccount(response);
             }
         }
     }

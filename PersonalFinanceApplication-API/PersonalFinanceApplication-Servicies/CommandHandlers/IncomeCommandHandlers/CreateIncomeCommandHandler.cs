@@ -2,10 +2,11 @@
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DomainModels.Enums;
-using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
-using PersonalFinanceApplication_DTO.NotificationModels;
+using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
 {
@@ -20,7 +21,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
         {
             RuleFor(income => income.IncomeDto.Amount).NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Currency).NotEmpty().NotNull();
-            RuleFor(income => income.IncomeDto.Account).IsInEnum().NotEmpty().NotNull();
+            RuleFor(income => income.IncomeDto.PaymentIssue).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Category).IsInEnum().NotEmpty().NotNull();
             RuleFor(income => income.IncomeDto.Purpose).NotEmpty().NotNull();
         }
@@ -30,43 +31,30 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
     {
         private readonly IIncomeRepository _incomeRepository;
         private readonly IUserContractRepository _userContractRepository;
-        private readonly IMediator _mediator;
+        private readonly IBalanceEventService _balanceEventService;
         public CreateIncomeCommandHandler(IIncomeRepository incomeRepository,
             IUserContractRepository userContractRepository,
-            IMediator mediator)
+            IBalanceEventService balanceEventService)
         {
             _incomeRepository = incomeRepository;
             _userContractRepository = userContractRepository;
-            _mediator = mediator;
+            _balanceEventService = balanceEventService;
         }
 
         public async Task<int> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)
         {
-            var userContract = _userContractRepository.GetEntity(request.IncomeDto.UserContractId);
             var validator = new CreateIncomeValidator();
             validator.ValidateAndThrow(request);
-
-            var income = request.IncomeDto.ToModel();
-            _incomeRepository.AddEntity(income);
-            await PublishBalanceChangedEvent(userContract, income);
-
-            return income.IncomeId;
-        }
-
-        private async Task PublishBalanceChangedEvent(UserContract userContract, Income income)
-        {
-            var notification = new BalanceChangedEvent()
+            var userContract = _userContractRepository.GetEntity(request.IncomeDto.UserContractId);
+            if (!userContract.IsNull())
             {
-                UserContract = userContract.ToDto(),
-                Account = income.Account,
-                Amount = income.Amount,
-                IncomeCategory = income.Category,
-                Date = income.Date,
-                Income = income.ToDto(),
-                UserId = userContract.UserId,
-                TransactionType = TransactionType.Income
-            };
-            await _mediator.Publish(notification);
+                var income = request.IncomeDto.ToModel();
+                _incomeRepository.AddEntity(income);
+                await _balanceEventService.AdjustBalanceOnRecievedIncome(userContract.ToDto(), request.IncomeDto,
+                    TransactionType.Income, BalanceOperation.AdjustBalance);
+                return income.IncomeId;
+            }
+            throw new CoreException("User contract cannot be found");
         }
     }
 }

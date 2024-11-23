@@ -4,6 +4,7 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers
 {
@@ -34,7 +35,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
             validator.ValidateAndThrow(request);
 
             var income = _incomeRepository.GetEntity(request.Id);
-            if (income != null)
+            if (!income.IsNull())
                 return income.ToDto();
             throw new CoreException("No income found");
         }

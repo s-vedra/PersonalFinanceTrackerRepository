@@ -10,7 +10,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new IncomeDto
             {
                 IncomeId = income.IncomeId,
-                Account = income.Account,
+                PaymentIssue = income.PaymentIssue,
                 Amount = income.Amount,
                 Currency = income.Currency,
                 Category = income.Category,
@@ -26,7 +26,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new Income
             {
                 IncomeId = income.IncomeId,
-                Account = income.Account,
+                PaymentIssue = income.PaymentIssue,
                 Amount = income.Amount,
                 Currency = income.Currency,
                 Category = income.Category,

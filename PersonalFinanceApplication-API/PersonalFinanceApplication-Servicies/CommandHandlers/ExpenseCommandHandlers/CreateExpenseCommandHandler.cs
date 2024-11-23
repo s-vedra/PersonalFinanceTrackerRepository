@@ -1,8 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_DomainModels.Enums;
 using PersonalFinanceApplication_DTO.DtoModels;
+using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
 {
@@ -17,7 +21,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
         {
             RuleFor(expense => expense.ExpenseDto.Amount).NotEmpty().NotNull().GreaterThan(0);
             RuleFor(expense => expense.ExpenseDto.Currency).NotEmpty().NotNull();
-            RuleFor(expense => expense.ExpenseDto.Account).IsInEnum().NotEmpty().NotNull();
+            RuleFor(expense => expense.ExpenseDto.PaymentIssue).IsInEnum().NotEmpty().NotNull();
             RuleFor(expense => expense.ExpenseDto.Category).IsInEnum().NotEmpty().NotNull();
             RuleFor(expense => expense.ExpenseDto.Purpose).NotEmpty().NotNull();
         }
@@ -26,20 +30,31 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
     public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, int>
     {
         private readonly IExpenseRepository _expenseRepository;
-        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository)
+        private readonly IUserContractRepository _userContractRepository;
+        private readonly IBalanceEventService _balanceEventService;
+        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository, IUserContractRepository userContractRepository,
+            IBalanceEventService balanceEventService)
         {
             _expenseRepository = expenseRepository;
+            _userContractRepository = userContractRepository;
+            _balanceEventService = balanceEventService;
         }
 
         public async Task<int> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateExpenseValidator();
             validator.ValidateAndThrow(request);
+            var userContract = _userContractRepository.GetEntity(request.ExpenseDto.UserContractId);
+            if (!userContract.IsNull())
+            {
+                var expense = request.ExpenseDto.ToModel();
+                _expenseRepository.AddEntity(expense);
+                await _balanceEventService.AdjustBalanceOnRecievedExpense(userContract.ToDto(), request.ExpenseDto,
+                    TransactionType.Expense, BalanceOperation.AdjustBalance);
 
-            var expense = request.ExpenseDto.ToModel();
-            _expenseRepository.AddEntity(expense);
-
-            return expense.ExpenseId;
+                return expense.ExpenseId;
+            }
+            throw new CoreException("User contract cannot be found");
         }
     }
 }

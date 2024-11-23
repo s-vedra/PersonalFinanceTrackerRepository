@@ -23,7 +23,7 @@ namespace PersonalFinanceApplication_DAL
             {
                 IncomeId = 1,
                 Date = DateTime.Today,
-                Account = Account.Card,
+                PaymentIssue = PaymentIssue.Card,
                 Category = IncomeCategory.Salary,
                 Amount = 20000,
                 Currency = "MKD",
@@ -34,8 +34,10 @@ namespace PersonalFinanceApplication_DAL
             {
                 UserContractId = 1,
                 UserId = 1,
-                AccountBalanceId = 1,
-                ContractType = ContractType.CurrentAccount
+                ContractType = ContractType.CurrentAccount,
+                ContractName = "PCB CA-4879",
+                DateOpened = DateTime.Today,
+                UserContractStatus = UserContractStatus.Active
             };
 
             var user = new User()

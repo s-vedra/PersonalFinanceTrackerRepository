@@ -12,10 +12,11 @@ namespace PersonalFinanceApplication_DAL.Implementation
             _dataContext = dataContext;
         }
 
-        public void AddEntity(User entity)
+        public int AddEntity(User entity)
         {
             _dataContext.Users.Add(entity);
             _dataContext.SaveChanges();
+            return entity.UserId;
         }
 
         public void DeleteEntity(User entity)

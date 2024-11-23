@@ -2,17 +2,17 @@
 using PersonalFinanceApplication_DTO.NotificationModels;
 using PersonalFinanceApplication_MBService.ProducerService;
 
-namespace PersonalFinanceApplication_Services.NotificationHandler
+namespace PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers
 {
-    public class BalanceChangeEventHandler : INotificationHandler<BalanceChangedEvent>
+    public class ExpenseBalanceChangedEventHandler : INotificationHandler<ExpenseBalanceEvent>
     {
         private readonly IProducerService _producerService;
-        public BalanceChangeEventHandler(IProducerService producerService)
+        public ExpenseBalanceChangedEventHandler(IProducerService producerService)
         {
             _producerService = producerService;
         }
 
-        public Task Handle(BalanceChangedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(ExpenseBalanceEvent notification, CancellationToken cancellationToken)
         {
             _producerService.PublishMessageToUpdateBalanceQueue(notification);
             return Task.CompletedTask;

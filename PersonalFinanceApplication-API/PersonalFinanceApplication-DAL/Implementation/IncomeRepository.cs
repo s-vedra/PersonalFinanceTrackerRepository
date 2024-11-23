@@ -12,10 +12,11 @@ namespace PersonalFinanceApplication_DAL.Implementation
             _dataContext = dataContext;
         }
 
-        public void AddEntity(Income entity)
+        public int AddEntity(Income entity)
         {
             _dataContext.Incomes.Add(entity);
             _dataContext.SaveChanges();
+            return entity.IncomeId;
         }
 
         public IEnumerable<Income> GetAllEntities()

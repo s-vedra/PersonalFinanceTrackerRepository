@@ -10,7 +10,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new ExpenseDto
             {
                 ExpenseId = expense.ExpenseId,
-                Account = expense.Account,
+                PaymentIssue = expense.PaymentIssue,
                 Amount = expense.Amount,
                 Currency = expense.Currency,
                 Category = expense.Category,
@@ -26,7 +26,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new Expense
             {
                 ExpenseId = expense.ExpenseId,
-                Account = expense.Account,
+                PaymentIssue = expense.PaymentIssue,
                 Amount = expense.Amount,
                 Currency = expense.Currency,
                 Category = expense.Category,

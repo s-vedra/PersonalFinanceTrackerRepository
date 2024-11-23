@@ -30,9 +30,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpenseId"));
 
-                    b.Property<int>("Account")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -48,6 +45,9 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentIssue")
+                        .HasColumnType("int");
 
                     b.Property<string>("Purpose")
                         .HasColumnType("nvarchar(max)");
@@ -70,9 +70,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IncomeId"));
 
-                    b.Property<int>("Account")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -88,6 +85,9 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentIssue")
+                        .HasColumnType("int");
 
                     b.Property<string>("Purpose")
                         .HasColumnType("nvarchar(max)");
@@ -105,11 +105,11 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         new
                         {
                             IncomeId = 1,
-                            Account = 2,
                             Amount = 20000m,
                             Category = 2,
                             Currency = "MKD",
-                            Date = new DateTime(2024, 11, 21, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2024, 11, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            PaymentIssue = 2,
                             UserContractId = 1
                         });
                 });
@@ -161,10 +161,17 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserContractId"));
 
-                    b.Property<int>("AccountBalanceId")
-                        .HasColumnType("int");
+                    b.Property<string>("ContractName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContractType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOpened")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserContractStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -180,8 +187,10 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         new
                         {
                             UserContractId = 1,
-                            AccountBalanceId = 1,
+                            ContractName = "PCB CA-4879",
                             ContractType = 1,
+                            DateOpened = new DateTime(2024, 11, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserContractStatus = 2,
                             UserId = 1
                         });
                 });

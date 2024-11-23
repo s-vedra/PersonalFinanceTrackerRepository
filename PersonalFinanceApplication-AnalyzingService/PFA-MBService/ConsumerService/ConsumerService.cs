@@ -26,12 +26,12 @@ namespace PFA_MBService.ConsumerService
         public string RecieveMessageFromUpdateBalanceQueue()
         {
             var result = _channel.BasicGet(queue: _settings.UpdateBalanceQueue, autoAck: true);
-            if (result == null)
+            if (result is null)
                 return string.Empty;
 
             var body = result.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine(message);
+            //var message = Encoding.UTF8.GetString(body);
+            //Console.WriteLine(message);
             return Encoding.UTF8.GetString(body);
         }
     }

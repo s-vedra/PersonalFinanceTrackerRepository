@@ -4,6 +4,7 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
 {
@@ -34,7 +35,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
             validator.ValidateAndThrow(request);
 
             var expense = _expenseRepository.GetEntity(request.Id);
-            if (expense != null)
+            if (!expense.IsNull())
                 return expense.ToDto();
             throw new CoreException("No expense found");
         }

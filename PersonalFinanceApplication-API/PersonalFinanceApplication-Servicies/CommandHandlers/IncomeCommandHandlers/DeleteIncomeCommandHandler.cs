@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_Exceptions.Exceptions;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
 {
@@ -31,7 +33,14 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
             validator.ValidateAndThrow(request);
 
             var income = _incomeRepository.GetEntity(request.Id);
-            _incomeRepository.DeleteEntity(income);
+            if (!income.IsNull())
+            {
+                _incomeRepository.DeleteEntity(income);
+            }
+            else
+            {
+                throw new CoreException("No income found");
+            }
         }
     }
 }

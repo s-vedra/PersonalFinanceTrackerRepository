@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "gRPCClient";
+
+service AccountBalanceService {
+	rpc GetAccountBalance (AccountBalanceRequest) returns (AccountBalanceResponse);
+}
+
+message AccountBalanceRequest {
+	int32 user_contract_id = 1;
+}
+
+message AccountBalanceResponse {
+    int32 account_balance_id = 1;
+    int64 amount = 2;
+    string currency = 3; 
+    google.protobuf.Timestamp last_date_added_money = 4;
+    google.protobuf.Timestamp last_date_draw_money = 5;
+}

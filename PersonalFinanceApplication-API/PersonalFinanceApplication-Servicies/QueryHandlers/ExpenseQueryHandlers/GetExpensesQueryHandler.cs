@@ -3,6 +3,7 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
 {
@@ -21,7 +22,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
         public async Task<List<ExpenseDto>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
             var expenses = _expenseRepository.GetAllEntities();
-            if (!expenses.Any())
+            if (!expenses.Any() || !expenses.IsNull())
             {
                 throw new CoreException("No expenses found!");
             }

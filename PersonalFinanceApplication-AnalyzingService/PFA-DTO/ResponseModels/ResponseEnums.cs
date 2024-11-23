@@ -29,7 +29,7 @@
         JointAccount
     }
 
-    public enum Account
+    public enum PaymentIssue
     {
         Cash = 1,
         Card
@@ -39,5 +39,13 @@
     {
         Income = 1, 
         Expense
+    }
+
+    public enum BalanceOperation
+    {
+        InitializeBalance = 1,
+        AdjustBalance,
+        RemoveBalance,
+        RetrieveBalance
     }
 }

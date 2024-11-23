@@ -12,9 +12,11 @@ using PersonalFinanceApplication_Services.CommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
+using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
+using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
+using PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
-using PersonalFinanceApplication_Services.NotificationHandler;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +55,8 @@ builder.Services.AddScoped<IRequestHandler<DeleteExpenseCommand>, DeleteExpenseC
 builder.Services.AddScoped<IRequestHandler<DeleteIncomeCommand>, DeleteIncomeCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateExpenseCommand>, UpdateExpenseCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateIncomeCommand>, UpdateIncomeCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateUserContractCommand, int>, CreateUserContractCommandHandler>();
+builder.Services.AddScoped<IBalanceEventService, BalanceEventService>();
 
 //query handlers
 builder.Services.AddScoped<IRequestHandler<GetBalanceQuery, AccountBalanceDto>, GetBalanceQueryHandler>();
@@ -88,14 +92,20 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
+
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    cfg.RegisterServicesFromAssembly(typeof(BalanceChangeEventHandler).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(UserContractOpeningEventHandler).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(IncomeBalanceChangedEventHandler).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(ExpenseBalanceChangedEventHandler).Assembly);
 });
 
 
+
 var app = builder.Build();
+
+//app.MapGrpcService<AccountBalanceService>();
 
 app.UseCors("AllowAllOrigins");
 

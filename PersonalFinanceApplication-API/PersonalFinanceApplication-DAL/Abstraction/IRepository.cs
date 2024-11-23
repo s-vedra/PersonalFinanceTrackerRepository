@@ -4,7 +4,7 @@
     {
         T GetEntity(K id);
 
-        void AddEntity(T entity);
+        int AddEntity(T entity);
 
         void UpdateEntity(T currentEntity, T updatedEntity);
 

@@ -13,7 +13,8 @@ namespace PFA_Mappers.Mappers
                 Amount = accountBalance.Amount,
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
-                LastDateDrawMoney = accountBalance.LastDateDrawMoney
+                LastDateDrawMoney = accountBalance.LastDateDrawMoney, 
+                UserContractId = accountBalance.UserContractId
             };
         }
 
@@ -25,7 +26,8 @@ namespace PFA_Mappers.Mappers
                 Amount = accountBalance.Amount,
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
-                LastDateDrawMoney = accountBalance.LastDateDrawMoney
+                LastDateDrawMoney = accountBalance.LastDateDrawMoney,
+                UserContractId = accountBalance.UserContractId
             };
         }
     }

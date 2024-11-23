@@ -3,6 +3,8 @@ using PFA_DAL.Abstraction;
 using PFA_DM.Models;
 using PFA_DTO.NotificationModels;
 using PFA_DTO.ResponseModels;
+using PFA_Exceptions.Exceptions;
+using PFA_Mappers.Mappers;
 using PFA_Services.Abstractions;
 
 namespace PFA_Services.BalanceProcessingService
@@ -14,31 +16,44 @@ namespace PFA_Services.BalanceProcessingService
         {
             _accountBalanceRepository = accountBalanceRepository;
         }
+
+        public void AccountBalanceOpeningService(string response)
+        {
+            var balanceOperationData = JsonConvert.DeserializeObject<BalanceOperationData>(response);
+            var accountBalance = balanceOperationData.UserContract.AccountBalance.ToModel();
+            accountBalance.UserContractId = balanceOperationData.UserContract.UserContractId;
+            _accountBalanceRepository.AddEntity(accountBalance);
+        }
+
         public void SyncBalanceToAccount(string response)
         {
-            var balanceChangedEvent = JsonConvert.DeserializeObject<BalanceChangedEvent>(response);
-            if (balanceChangedEvent is not null)
+            if (!string.IsNullOrEmpty(response))
             {
-                var accountBalance = _accountBalanceRepository.GetEntity(balanceChangedEvent.UserContract.UserContractId);
-                accountBalance.Amount = CalculateAccountBalance(balanceChangedEvent, accountBalance);
+                var balanceChangedEventWrapper = JsonConvert.DeserializeObject<BalanceChangedEventWrapper>(response);
+                var accountBalance = _accountBalanceRepository.GetEntity(balanceChangedEventWrapper.UserContract.UserContractId);
+
+                accountBalance.Amount = CalculateAccountBalance(balanceChangedEventWrapper, accountBalance, response);
                 _accountBalanceRepository.UpdateEntity(accountBalance, accountBalance);
             }
         }
 
-        private decimal CalculateAccountBalance(BalanceChangedEvent balanceChangedEvent, AccountBalance accountBalance)
+        private decimal CalculateAccountBalance(BalanceChangedEventWrapper balanceChangedEvent,
+            AccountBalance accountBalance, string response)
         {
-            if (balanceChangedEvent.TransactionType == TransactionType.Income)
+            if (balanceChangedEvent.TransactionType is TransactionType.Income)
             {
-                accountBalance.LastDateAddedMoney = balanceChangedEvent.Date;
-                return accountBalance.Amount += balanceChangedEvent.Income.Amount;
+                var incomeBalanceEvent = JsonConvert.DeserializeObject<IncomeBalanceEvent>(response);
+                accountBalance.LastDateAddedMoney = incomeBalanceEvent.Income.Date;
+                return accountBalance.Amount += incomeBalanceEvent.Income.Amount;
             }
             else if (balanceChangedEvent.TransactionType == TransactionType.Expense)
             {
-                accountBalance.LastDateDrawMoney = balanceChangedEvent.Date;
-                return accountBalance.Amount -= balanceChangedEvent.Expense.Amount;
+                var expenseBalanceEvent = JsonConvert.DeserializeObject<ExpenseBalanceEvent>(response);
+                accountBalance.LastDateDrawMoney = expenseBalanceEvent.Expense.Date;
+                return accountBalance.Amount -= expenseBalanceEvent.Expense.Amount;
             }
 
-            throw new Exception("Invalid transaction type");
+            throw new CoreException("Invalid transaction type");
         }
     }
 }

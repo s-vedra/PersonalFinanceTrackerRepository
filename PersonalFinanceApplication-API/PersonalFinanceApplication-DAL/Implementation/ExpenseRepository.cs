@@ -11,10 +11,11 @@ namespace PersonalFinanceApplication_DAL.Implementation
         {
             _dataContext = dataContext;
         }
-        public void AddEntity(Expense entity)
+        public int AddEntity(Expense entity)
         {
             _dataContext.Expenses.Add(entity);
             _dataContext.SaveChanges();
+            return entity.ExpenseId;
         }
 
         public IEnumerable<Expense> GetAllEntities()
