@@ -33,7 +33,6 @@
     <ProjectReference Include="..\PersonalFinanceApplication-DTO\PersonalFinanceApplication-DTO.csproj" />
     <ProjectReference Include="..\PersonalFinanceApplication-MBService\PersonalFinanceApplication-MBService.csproj" />
     <ProjectReference Include="..\PersonalFinanceApplication-Servicies\PersonalFinanceApplication-Services.csproj" />
-    <ProjectReference Include="..\PFA-Protos\PFA-gRPCService.csproj" />
   </ItemGroup>
 
 </Project>
