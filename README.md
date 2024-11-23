@@ -35,5 +35,6 @@ The client-side development is currently in progress, bringing a user-friendly i
 Enhancements in the form of authorization and authentication are underway to ensure secure access to your financial data.
 
 ## Architecture
-![{929EDCCB-5E23-48BF-B441-E8820AB85A27}](https://github.com/user-attachments/assets/e2221e62-ec92-4c81-8b19-b1a815c4b107)
+![{3784705E-8C3E-42BF-8958-D0826AFE1045}](https://github.com/user-attachments/assets/c2a09e7f-f99c-474e-96aa-999a9fd5bdd0)
+
 
