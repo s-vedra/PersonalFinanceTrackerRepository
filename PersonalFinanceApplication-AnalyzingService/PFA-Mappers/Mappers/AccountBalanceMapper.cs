@@ -1,4 +1,6 @@
-﻿using PFA_DM.Models;
+﻿using Google.Protobuf.WellKnownTypes;
+using gRPCClient;
+using PFA_DM.Models;
 using PFA_DTO.ResponseModels;
 
 namespace PFA_Mappers.Mappers
@@ -27,6 +29,19 @@ namespace PFA_Mappers.Mappers
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
                 LastDateDrawMoney = accountBalance.LastDateDrawMoney,
+                UserContractId = accountBalance.UserContractId
+            };
+        }
+
+        public static AccountBalanceResponse MapAccountBalanceRequest(this AccountBalance accountBalance)
+        {
+            return new AccountBalanceResponse
+            {
+                AccountBalanceId = accountBalance.AccountBalanceId,
+                Amount = (long)accountBalance.Amount,
+                Currency = accountBalance.Currency,
+                LastDateAddedMoney = accountBalance.LastDateAddedMoney.ToUniversalTime().ToTimestamp(),
+                LastDateDrawMoney = accountBalance.LastDateDrawMoney.ToUniversalTime().ToTimestamp(),
                 UserContractId = accountBalance.UserContractId
             };
         }

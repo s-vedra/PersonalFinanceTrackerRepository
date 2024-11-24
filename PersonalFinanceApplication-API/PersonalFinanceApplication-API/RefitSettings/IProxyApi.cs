@@ -2,7 +2,7 @@
 using PersonalFinanceApplication_DTO.ResponseModels;
 using Refit;
 
-namespace PersonalFinanceApplication_API.ReffitSettings
+namespace PersonalFinanceApplication_API.RefitSettings
 {
     public interface IProxyApi
     {

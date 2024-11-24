@@ -17,4 +17,5 @@ message AccountBalanceResponse {
     string currency = 3; 
     google.protobuf.Timestamp last_date_added_money = 4;
     google.protobuf.Timestamp last_date_draw_money = 5;
+    int32 user_contract_id = 6;
 }

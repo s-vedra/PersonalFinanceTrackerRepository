@@ -11,5 +11,10 @@
         {
             
         }
+
+        public CoreException(Exception ex, string message) : base(message)
+        {
+
+        }
     }
 }

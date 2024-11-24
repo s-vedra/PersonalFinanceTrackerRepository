@@ -32,7 +32,12 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
+
+builder.Services.AddGrpc();
+
 var app = builder.Build();
+
+app.MapGrpcService<AccountBalanceRetriever>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

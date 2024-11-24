@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PFA-DM\PFA-DM.csproj" />
     <ProjectReference Include="..\PFA-DTO\PFA-DTO.csproj" />
+    <ProjectReference Include="..\PFA-gRPCServer\PFA-gRPCServer.csproj" />
   </ItemGroup>
 
 </Project>

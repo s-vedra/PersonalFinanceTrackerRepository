@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PersonalFinanceApplication_API.ReffitSettings;
+using PersonalFinanceApplication_API.RefitSettings;
 using PersonalFinanceApplication_DTO.RequestModels;
 using Refit;
 

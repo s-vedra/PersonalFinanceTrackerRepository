@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PersonalFinanceApplication_API.ReffitSettings;
+using PersonalFinanceApplication_API.RefitSettings;
 using PersonalFinanceApplication_DAL;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DAL.Implementation;
@@ -17,6 +17,8 @@ using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
 using PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
+using PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers;
+using PFA_gRPCClient.ServiceProperties;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,6 +88,9 @@ builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("R
 
 //refit settings
 builder.Services.AddScoped(x => RestService.For<IProxyApi>(builder.Configuration["ApiSettings:ApiProxyUrl"]));
+
+//gRPC settings 
+builder.Services.Configure<gRPCSettings>(builder.Configuration.GetSection("gRPCSettings"));
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

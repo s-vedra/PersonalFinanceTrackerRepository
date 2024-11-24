@@ -25,10 +25,7 @@
     <ProjectReference Include="..\PersonalFinanceApplication-DTO\PersonalFinanceApplication-DTO.csproj" />
     <ProjectReference Include="..\PersonalFinanceApplication-Mappers\PersonalFinanceApplication-Mappers.csproj" />
     <ProjectReference Include="..\PersonalFinanceApplication-MBService\PersonalFinanceApplication-MBService.csproj" />
+    <ProjectReference Include="..\PFA-gRPCClient\PFA-gRPCClient.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Protobuf Include="gRPCClient\AccountBalanceService.proto" GrpcServices="Client" />
-	</ItemGroup>
 
 </Project>

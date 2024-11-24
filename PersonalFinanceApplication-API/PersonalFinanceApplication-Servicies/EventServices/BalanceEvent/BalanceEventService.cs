@@ -17,9 +17,7 @@ namespace PersonalFinanceApplication_Services.EventServices.BalanceEvent
             BalanceOperation balanceOperation)
         {
             var notification = UserContractOpeningNotification(userContract, accountBalanceDto);
-            notification.BalanceOperation = balanceOperation;
-
-            await _mediator.Publish(notification);
+            await PublishNotificationToProducer(notification, balanceOperation);
         }
 
         public async Task AdjustBalanceOnRecievedIncome(UserContractDto userContract, IncomeDto income,
@@ -27,9 +25,7 @@ namespace PersonalFinanceApplication_Services.EventServices.BalanceEvent
         {
             var notification = IncomeBalanceChangeNotification(userContract, income);
             notification.TransactionType = transactionType;
-            notification.BalanceOperation = balanceOperation;
-
-            await _mediator.Publish(notification);
+            await PublishNotificationToProducer(notification, balanceOperation);
         }
 
         public async Task AdjustBalanceOnRecievedExpense(UserContractDto userContract, ExpenseDto expense,
@@ -37,8 +33,12 @@ namespace PersonalFinanceApplication_Services.EventServices.BalanceEvent
         {
             var notification = ExpenseBalanceChangeNotification(userContract, expense);
             notification.TransactionType = transactionType;
-            notification.BalanceOperation = balanceOperation;
+            await PublishNotificationToProducer(notification, balanceOperation);
+        }
 
+        private async Task PublishNotificationToProducer(BalanceChangedEvent notification, BalanceOperation balanceOperation)
+        {
+            notification.BalanceOperation = balanceOperation;
             await _mediator.Publish(notification);
         }
 

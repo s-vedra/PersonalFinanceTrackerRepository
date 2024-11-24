@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PersonalFinanceApplication-DTO\PersonalFinanceApplication-DTO.csproj" />
+    <ProjectReference Include="..\PFA-gRPCClient\PFA-gRPCClient.csproj" />
   </ItemGroup>
 
 </Project>

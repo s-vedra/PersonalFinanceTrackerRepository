@@ -49,10 +49,11 @@ namespace PFA_Services.BalanceProcessingService
             else if (balanceChangedEvent.TransactionType == TransactionType.Expense)
             {
                 var expenseBalanceEvent = JsonConvert.DeserializeObject<ExpenseBalanceEvent>(response);
+                if (accountBalance.Amount < expenseBalanceEvent.Expense.Amount)
+                    throw new CoreException("The account balance is insufficient for the expense amount.");
                 accountBalance.LastDateDrawMoney = expenseBalanceEvent.Expense.Date;
                 return accountBalance.Amount -= expenseBalanceEvent.Expense.Amount;
             }
-
             throw new CoreException("Invalid transaction type");
         }
     }

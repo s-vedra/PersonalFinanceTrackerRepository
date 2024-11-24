@@ -1,4 +1,5 @@
-﻿using PersonalFinanceApplication_DomainModels.Models;
+﻿using gRPCClient;
+using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 
 namespace PersonalFinanceApplication_Mappers.Mappers
@@ -26,6 +27,19 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
                 LastDateDrawMoney = accountBalance.LastDateDrawMoney
+            };
+        }
+
+        public static AccountBalanceDto MapAcccountBalanceRequest(this AccountBalanceResponse accountBalanceRequest)
+        {
+            return new AccountBalanceDto()
+            {
+                AccountBalanceId = accountBalanceRequest.AccountBalanceId,
+                Amount = accountBalanceRequest.Amount,
+                Currency = accountBalanceRequest.Currency,
+                LastDateAddedMoney = accountBalanceRequest.LastDateAddedMoney.ToDateTime(),
+                LastDateDrawMoney = accountBalanceRequest.LastDateDrawMoney.ToDateTime(), 
+                UserContractId = accountBalanceRequest.UserContractId
             };
         }
     }

@@ -30,8 +30,6 @@ namespace PFA_MBService.ConsumerService
                 return string.Empty;
 
             var body = result.Body.ToArray();
-            //var message = Encoding.UTF8.GetString(body);
-            //Console.WriteLine(message);
             return Encoding.UTF8.GetString(body);
         }
     }
