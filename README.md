@@ -27,6 +27,7 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 - **CQRS (Command Query Responsibility Segregation):** Implementing CQRS to separate the read and write operations, enhancing system performance and scalability.
   
 - **RabbitMQ**: Utilizing RabbitMQ as a message broker to facilitate asynchronous communication between microservices, ensuring decoupling of services, reliable message delivery, and efficient handling of high-volume transactions.
+- **gRPC**: Enables high-performance, cross-platform communication between microservices using a lightweight and efficient Remote Procedure Call (RPC) framework. Ideal for real-time, low-latency, and high-throughput interactions between distributed systems.
 
 ## Client Side
 The client-side development is currently in progress, bringing a user-friendly interface to interact with the Personal Finance Tracker API.
