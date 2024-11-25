@@ -22,10 +22,8 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
         public async Task<List<ExpenseDto>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
             var expenses = _expenseRepository.GetAllEntities();
-            if (!expenses.Any() || !expenses.IsNull())
-            {
+            if (!expenses.Any() || expenses.IsNull())
                 throw new CoreException("No expenses found!");
-            }
             return expenses.Select(x => x.ToDto()).ToList();
         }
     }

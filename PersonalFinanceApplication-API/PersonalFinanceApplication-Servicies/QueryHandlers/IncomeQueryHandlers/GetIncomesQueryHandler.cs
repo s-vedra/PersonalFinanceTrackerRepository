@@ -22,10 +22,8 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
         public async Task<List<IncomeDto>> Handle(GetIncomesQuery request, CancellationToken cancellationToken)
         {
             var incomes = _incomeRepository.GetAllEntities();
-            if (!incomes.Any() || !incomes.IsNull())
-            {
+            if (!incomes.Any() || incomes.IsNull())
                 throw new CoreException("No incomes found!");
-            }
             return incomes.Select(x => x.ToDto()).ToList();
         }
     }

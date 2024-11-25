@@ -5,7 +5,7 @@ using PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandler
 
 namespace PersonalFinanceApplication_API.Controllers
 {
-    [Route("api/user-contract")]
+    [Route("api/dashboard")]
     [ApiController]
     public class FinanceTrackerUserContractController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace PersonalFinanceApplication_API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("user-contract/balance/{id}")]
         public async Task<IActionResult> GetAccountBalancePerContract(int id)
         {
             try
