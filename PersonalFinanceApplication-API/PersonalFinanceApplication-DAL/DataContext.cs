@@ -75,6 +75,9 @@ namespace PersonalFinanceApplication_DAL
            .ToTable("User")
            .HasData(user);
 
+            modelBuilder.Entity<Expense>()
+            .ToTable("Expense");
+
             modelBuilder.Entity<UserContract>()
             .HasOne(uc => uc.User)
             .WithMany(u => u.UserContracts)
