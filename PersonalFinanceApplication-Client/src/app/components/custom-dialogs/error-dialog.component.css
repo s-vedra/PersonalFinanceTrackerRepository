@@ -1,0 +1,55 @@
+/* Title styling */
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e53935;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Content section styling */
+.dialog-content {
+  padding: 20px;
+  color: #424242;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Message styling */
+.dialog-message {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #333;
+  margin-top: 1rem;
+}
+
+/* Actions section */
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Button styling */
+.dialog-close-btn {
+  background-color: #e53935;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect on the close button */
+.dialog-close-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Disable button styles for disabled state */
+.dialog-close-btn:disabled {
+  background-color: #cfd8dc;
+  color: #90a4ae;
+}

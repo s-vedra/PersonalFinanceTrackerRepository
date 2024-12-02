@@ -1,3 +1,4 @@
+using gRPCClient;
 using Microsoft.EntityFrameworkCore;
 using PFA_DAL;
 using PFA_DAL.Abstraction;

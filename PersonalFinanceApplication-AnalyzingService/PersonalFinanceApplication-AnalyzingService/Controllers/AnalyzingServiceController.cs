@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PFA_DAL.Abstraction;
+using PFA_Services.Abstractions;
 
 namespace PersonalFinanceApplication_AnalyzingService.Controllers
 {
@@ -6,18 +8,5 @@ namespace PersonalFinanceApplication_AnalyzingService.Controllers
     [ApiController]
     public class AnalyzingServiceController : ControllerBase
     {
-        [HttpGet("available-currencies/{type}")]
-        public async Task<IActionResult> GetAvailableCurrencies(string type)
-        {
-            try
-            {
-                var result = "test";
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

@@ -34,8 +34,8 @@ namespace PersonalFinanceApplication_API.Controllers
         {
             try
             {
-                var userContract = await _mediator.Send(userContractDto);
-                return Ok(userContract);
+                await _mediator.Send(userContractDto);
+                return Ok();
             }
             catch (Exception ex)
             {

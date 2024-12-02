@@ -1,0 +1,46 @@
+<div class="dashboard">
+  <!-- Sidebar -->
+  <nav class="sidebar" [class.active]="isSidebarActive">
+    <h2 class="logo">Finance<span>Tracker</span></h2>
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active"
+          ><i class="icon">🏠</i> Dashboard</a
+        >
+      </li>
+      <li ngbDropdown class="nav-item">
+        <a ngbDropdownToggle class="nav-link custom-dropdown-toggle">
+          <i class="icon">💰</i> Transactions
+        </a>
+        <div ngbDropdownMenu class="dropdown-menu custom-dropdown-menu">
+          <a
+            ngbDropdownItem
+            routerLink="/transactions/income"
+            routerLinkActive="active"
+            class="dropdown-item custom-dropdown-item"
+            >Income</a
+          >
+          <a
+            ngbDropdownItem
+            routerLink="/transactions/expense"
+            routerLinkActive="active"
+            class="dropdown-item custom-dropdown-item"
+            >Expense</a
+          >
+        </div>
+      </li>
+      <li>
+        <a routerLink="/analytics" routerLinkActive="active"
+          ><i class="icon">📊</i> Analytics</a
+        >
+      </li>
+      <li>
+        <a routerLink="/settings" routerLinkActive="active"
+          ><i class="icon">⚙️</i> Settings</a
+        >
+      </li>
+    </ul>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </nav>
+</div>
+<router-outlet></router-outlet>

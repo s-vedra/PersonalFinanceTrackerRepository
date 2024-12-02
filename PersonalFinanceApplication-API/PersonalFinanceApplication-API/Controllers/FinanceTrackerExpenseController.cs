@@ -60,7 +60,7 @@ namespace Personal_Finance_Application_API.Controllers
             try
             {
                 await _mediator.Send(expenseDto);
-                return Ok("Expense added");
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -78,7 +78,7 @@ namespace Personal_Finance_Application_API.Controllers
             try
             {
                 await _mediator.Send(expenseDto);
-                return Ok("Expense updated");
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -96,7 +96,7 @@ namespace Personal_Finance_Application_API.Controllers
             try
             {
                 await _mediator.Send(new DeleteExpenseCommand() { Id = id });
-                return Ok("Expense deleted");
+                return Ok();
             }
             catch (ValidationException ex)
             {

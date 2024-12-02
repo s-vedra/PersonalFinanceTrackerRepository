@@ -1,0 +1,56 @@
+# Node modules
+/node_modules/
+
+# Compiled output
+/dist/
+/out-tsc/
+
+# Debugging files
+/.idea/
+/.vscode/
+
+# Dependency directories
+/bower_components/
+
+# NPM logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+/.env
+/.env.local
+/.env.*.local
+
+# Angular CLI specific
+.angular/
+
+# Build artifacts
+/coverage/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE and editor specific files
+.vscode/
+.idea/
+
+# Local environment configurations
+/.angular/
+
+# Testing tools
+/karma-config.js
+/protractor.conf.js
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# NPM package-lock
+package-lock.json

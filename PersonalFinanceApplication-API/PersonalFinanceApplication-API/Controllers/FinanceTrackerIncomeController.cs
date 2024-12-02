@@ -59,7 +59,7 @@ namespace PersonalFinanceApplication_API.Controllers
             try
             {
                 await _mediator.Send(incomeDto);
-                return Ok("Income added");
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -77,7 +77,7 @@ namespace PersonalFinanceApplication_API.Controllers
             try
             {
                 await _mediator.Send(incomeDto);
-                return Ok("Income updated");
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -95,7 +95,7 @@ namespace PersonalFinanceApplication_API.Controllers
             try
             {
                 await _mediator.Send(new DeleteIncomeCommand() { Id = id });
-                return Ok("Income deleted");
+                return Ok();
             }
             catch (ValidationException ex)
             {
