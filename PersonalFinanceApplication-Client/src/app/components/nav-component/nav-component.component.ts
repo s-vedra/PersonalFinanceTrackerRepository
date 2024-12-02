@@ -9,7 +9,6 @@ export class NavComponentComponent {
   isSidebarActive = false;
   logout() {
     console.log('Logout clicked');
-    // Implement your logout logic here
   }
   toggleSidebar() {
     this.isSidebarActive = !this.isSidebarActive;

@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     console.log('Logout clicked');
-    // Implement your logout logic here
   }
   toggleSidebar() {
     this.isSidebarActive = !this.isSidebarActive;
@@ -36,30 +35,10 @@ export class DashboardComponent implements OnInit {
     this.incomeService.getAllIncomes().subscribe({
       next: (incomes) => {
         this.incomes = incomes;
-        // this.categories = this.getIncomeCategoryFromEnum();
       },
       error: (message) => console.log(message),
     });
   }
-
-  // getIncomeCategoryFromEnum(): Array<string> {
-  //   return this.incomes.map((income) => {
-  //     switch (income.category) {
-  //       case 1:
-  //         return (income.incomeCategory = IncomeCategory.Allowance);
-  //       case 2:
-  //         return (income.incomeCategory = IncomeCategory.Salary);
-  //       case 3:
-  //         return (income.incomeCategory = IncomeCategory.PettyCash);
-  //       case 4:
-  //         return (income.incomeCategory = IncomeCategory.Bonus);
-  //       case 5:
-  //         return (income.incomeCategory = IncomeCategory.Other);
-  //       default:
-  //         return 'Unknown';
-  //     }
-  //   });
-  // }
 
   getBalance(userContractId: string) {
     this.incomeService.getBalance(userContractId).subscribe({
