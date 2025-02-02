@@ -26,6 +26,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './components/custom-dialogs/error-dialog.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { baseEnvironment } from 'src/environments/environment.development';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,7 @@ import { ErrorDialogComponent } from './components/custom-dialogs/error-dialog.c
     ExpenseFormComponent,
     NavComponentComponent,
     ErrorDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,8 @@ import { ErrorDialogComponent } from './components/custom-dialogs/error-dialog.c
     MatNativeDateModule,
     MatInputModule,
     MatDialogModule,
+    AngularFireModule.initializeApp(baseEnvironment.firebase),
+    AngularFireAuthModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -2,9 +2,9 @@
 {
     public static class ExtenstionMethods
     {
-        public static bool IsNull<T>(this T obj)
+        public static bool IsNull<T>(this T entity)
         {
-            if (obj is not null)
+            if (entity is not null)
                 return false;
             return true;
         }

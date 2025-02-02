@@ -3,6 +3,10 @@ import { IncomeServiceService } from 'src/app/services/income-service.service';
 import { IncomeCategory } from 'src/app/viewModels/enums/incomeCategory';
 import { AccountBalanceDto } from 'src/app/viewModels/models/accountBalanceModel';
 import { IncomeDto } from 'src/app/viewModels/models/incomeModel';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { User } from 'firebase/auth';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../custom-dialogs/error-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,15 +21,29 @@ export class DashboardComponent implements OnInit {
   selectedCurrency: string = 'MKD';
   objectKeys: string[] = [];
   isSidebarActive = false;
+  isLoggedIn: boolean = false;
+  user: User | null = null;
 
-  constructor(private incomeService: IncomeServiceService) {}
+  constructor(
+    private incomeService: IncomeServiceService,
+    private authService: AuthServiceService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.getDataFromApi();
+    // this.authService.getAuthState().subscribe((user) => {
+    //   this.isLoggedIn = !!user;
+    //   this.user = user;
+    //   if (this.isLoggedIn) {
+    //     this.getDataFromApi();
+    //   }
+    // });
   }
 
-  logout() {
-    console.log('Logout clicked');
+  showErrorDialog(message: string) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: { message },
+    });
   }
   toggleSidebar() {
     this.isSidebarActive = !this.isSidebarActive;

@@ -1,25 +1,30 @@
-<!-- Main Content -->
-<div class="main-content">
-  <header>
-    <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
-    <h1>Dashboard</h1>
-    <div class="user-info">
-      <img src="https://via.placeholder.com/40" alt="User Avatar" />
-      <span>John Doe</span>
-    </div>
-  </header>
-  <section class="content">
-    <div class="card">
-      <h2>Overview</h2>
-      <p>Your financial summary for this month.</p>
-    </div>
-    <div class="card">
-      <h2>Recent Transactions</h2>
-      <p>A quick glance at your recent activities.</p>
-    </div>
-    <div class="card">
-      <h2>Analytics</h2>
-      <p>Detailed insights about your spending patterns.</p>
-    </div>
-  </section>
+<div *ngIf="!isLoggedIn; else dashboardContent" class="login-prompt">
+  <app-login></app-login>
 </div>
+
+<ng-template #dashboardContent>
+  <div class="main-content">
+    <header>
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+      <h1>Dashboard</h1>
+      <div class="user-info">
+        <img src="https://via.placeholder.com/40" alt="User Avatar" />
+        <span>{{ user?.displayName || "Guest" }}</span>
+      </div>
+    </header>
+    <section class="content">
+      <div class="card">
+        <h2>Overview</h2>
+        <p>Your financial summary for this month.</p>
+      </div>
+      <div class="card">
+        <h2>Recent Transactions</h2>
+        <p>A quick glance at your recent activities.</p>
+      </div>
+      <div class="card">
+        <h2>Analytics</h2>
+        <p>Detailed insights about your spending patterns.</p>
+      </div>
+    </section>
+  </div>
+</ng-template>

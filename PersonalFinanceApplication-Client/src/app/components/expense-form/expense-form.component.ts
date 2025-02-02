@@ -5,6 +5,8 @@ import { ExpenseService } from 'src/app/services/expense.service';
 import { PaymentIssue } from 'src/app/viewModels/enums/paymentIssue';
 import { ExpenseDto } from 'src/app/viewModels/models/expenseModel';
 import { ExpenseCategory } from 'src/app/viewModels/enums/expenseCategory';
+import { User } from 'firebase/auth';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-expense-form',
@@ -19,24 +21,34 @@ export class ExpenseFormComponent {
   currencies: any = {};
   currencyKeys: string[] = [];
   isSidebarActive = false;
+  isLoggedIn: boolean = false;
+  user: User | null = null;
 
   constructor(
     private expenseService: ExpenseService,
     private fb: FormBuilder,
-    private exchangeRatesService: ExchangeRatesService
+    private exchangeRatesService: ExchangeRatesService,
+    private authService: AuthServiceService
   ) {}
 
   ngOnInit(): void {
-    this.getAllCurrencies();
-    this.expenseForm = this.fb.group({
-      date: [null, Validators.required],
-      paymentIssue: [PaymentIssue.Card, Validators.required],
-      category: [ExpenseCategory.Others, Validators.required],
-      purpose: [null, Validators.required],
-      amount: [null, [Validators.required, Validators.min(1)]],
-      currency: [this.currencyKeys[0], Validators.required],
-      note: [''],
-      userContractId: [11],
+    this.authService.getAuthState().subscribe((user) => {
+      this.isLoggedIn = !!user;
+      this.user = user;
+
+      if (this.isLoggedIn) {
+        this.getAllCurrencies();
+        this.expenseForm = this.fb.group({
+          date: [null, Validators.required],
+          paymentIssue: [PaymentIssue.Card, Validators.required],
+          category: [ExpenseCategory.Others, Validators.required],
+          purpose: [null, Validators.required],
+          amount: [null, [Validators.required, Validators.min(1)]],
+          currency: [this.currencyKeys[0], Validators.required],
+          note: [''],
+          userContractId: [11],
+        });
+      }
     });
   }
 

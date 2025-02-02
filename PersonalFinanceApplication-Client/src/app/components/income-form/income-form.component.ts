@@ -7,6 +7,8 @@ import { IncomeCategory } from 'src/app/viewModels/enums/incomeCategory';
 import { IncomeDto } from 'src/app/viewModels/models/incomeModel';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../custom-dialogs/error-dialog.component';
+import { User } from 'firebase/auth';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-income-form',
@@ -21,25 +23,35 @@ export class IncomeFormComponent {
   currencies: any = {};
   currencyKeys: string[] = [];
   isSidebarActive = false;
+  isLoggedIn: boolean = false;
+  user: User | null = null;
 
   constructor(
     private incomeService: IncomeServiceService,
     private fb: FormBuilder,
     private exchangeRatesService: ExchangeRatesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthServiceService
   ) {}
 
   ngOnInit(): void {
-    this.getAllCurrencies();
-    this.incomeForm = this.fb.group({
-      date: [null, Validators.required],
-      paymentIssue: [PaymentIssue.Card, Validators.required],
-      category: [IncomeCategory.Allowance, Validators.required],
-      purpose: [null, Validators.required],
-      amount: [null, [Validators.required, Validators.min(1)]],
-      currency: [this.currencyKeys[0], Validators.required],
-      note: [''],
-      userContractId: [11],
+    this.authService.getAuthState().subscribe((user) => {
+      this.isLoggedIn = !!user;
+      this.user = user;
+
+      if (this.isLoggedIn) {
+        this.getAllCurrencies();
+        this.incomeForm = this.fb.group({
+          date: [null, Validators.required],
+          paymentIssue: [PaymentIssue.Card, Validators.required],
+          category: [IncomeCategory.Allowance, Validators.required],
+          purpose: [null, Validators.required],
+          amount: [null, [Validators.required, Validators.min(1)]],
+          currency: [this.currencyKeys[0], Validators.required],
+          note: [''],
+          userContractId: [11],
+        });
+      }
     });
   }
 

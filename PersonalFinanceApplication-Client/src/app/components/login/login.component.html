@@ -1,0 +1,59 @@
+<div class="login-container">
+  <h2>Login</h2>
+
+  <!-- Login Form -->
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <!-- Email Input -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        [(ngModel)]="email"
+        name="email"
+        required
+        placeholder="Enter your email"
+        #emailInput="ngModel"
+      />
+      <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
+        Email is required.
+      </div>
+    </div>
+
+    <!-- Password Input -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        [(ngModel)]="password"
+        name="password"
+        required
+        placeholder="Enter your password"
+        #passwordInput="ngModel"
+      />
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+        Password is required.
+      </div>
+    </div>
+
+    <div class="mb-4 text-center">
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="custom-btn w-100"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+
+  <!-- <div class="google-login">
+    <button (click)="loginWithGoogle()" class="btn btn-secondary">
+      Login with Google
+    </button>
+  </div> -->
+</div>

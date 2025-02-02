@@ -1,132 +1,138 @@
-<div class="centered-container">
-  <form [formGroup]="incomeForm" (ngSubmit)="submitIncome()" class="form">
-    <h2 class="text-center mb-4">New Income</h2>
-
-    <div class="row">
-      <div class="col-md-6">
-        <!-- Date Field -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Date</mat-label>
-            <input
-              matInput
-              formControlName="date"
-              [matDatepicker]="picker"
-              placeholder="Choose a date"
-              required
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <!-- Payment Issue Dropdown -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Payment Issue</mat-label>
-            <mat-select formControlName="paymentIssue" required>
-              <mat-option
-                *ngFor="let paymentIssuer of paymentIssueEnumValues"
-                [value]="paymentIssuer.value"
-              >
-                {{ paymentIssuer.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- Category Dropdown -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category" required>
-              <mat-option
-                *ngFor="let category of categoryEnumValues"
-                [value]="category.value"
-              >
-                {{ category.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <!-- Purpose Field -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Purpose</mat-label>
-            <input
-              matInput
-              formControlName="purpose"
-              type="text"
-              placeholder="Enter purpose"
-              required
-            />
-          </mat-form-field>
-        </div>
-
-        <!-- Amount Field -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Amount</mat-label>
-            <input
-              matInput
-              formControlName="amount"
-              type="number"
-              placeholder="Enter amount"
-              required
-            />
-          </mat-form-field>
-        </div>
-
-        <!-- Currency Dropdown -->
-        <div class="mb-4">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Currency</mat-label>
-            <mat-select formControlName="currency" required>
-              <mat-option
-                *ngFor="let currency of currencyKeys"
-                [value]="currency"
-              >
-                {{ currency }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-
-    <!-- Note Field -->
-    <div class="mb-4">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label>Note</mat-label>
-        <textarea
-          matInput
-          formControlName="note"
-          rows="4"
-          placeholder="Enter additional notes"
-          maxlength="250"
-        ></textarea>
-        <mat-hint align="end"
-          >{{ incomeForm.get("note")?.value?.length || 0 }}/250</mat-hint
-        >
-      </mat-form-field>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="mb-4 text-center">
-      <button
-        mat-raised-button
-        type="submit"
-        [disabled]="incomeForm.invalid"
-        class="custom-btn w-100"
-      >
-        Add Income
-      </button>
-    </div>
-  </form>
+<div *ngIf="!isLoggedIn; else incomeTemplate" class="login-prompt">
+  <app-login></app-login>
 </div>
+
+<ng-template #incomeTemplate>
+  <div class="centered-container">
+    <form [formGroup]="incomeForm" (ngSubmit)="submitIncome()" class="form">
+      <h2 class="text-center mb-4">New Income</h2>
+
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Date Field -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Date</mat-label>
+              <input
+                matInput
+                formControlName="date"
+                [matDatepicker]="picker"
+                placeholder="Choose a date"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- Payment Issue Dropdown -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Payment Issue</mat-label>
+              <mat-select formControlName="paymentIssue" required>
+                <mat-option
+                  *ngFor="let paymentIssuer of paymentIssueEnumValues"
+                  [value]="paymentIssuer.value"
+                >
+                  {{ paymentIssuer.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Category Dropdown -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" required>
+                <mat-option
+                  *ngFor="let category of categoryEnumValues"
+                  [value]="category.value"
+                >
+                  {{ category.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Purpose Field -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Purpose</mat-label>
+              <input
+                matInput
+                formControlName="purpose"
+                type="text"
+                placeholder="Enter purpose"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Amount Field -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Amount</mat-label>
+              <input
+                matInput
+                formControlName="amount"
+                type="number"
+                placeholder="Enter amount"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Currency Dropdown -->
+          <div class="mb-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Currency</mat-label>
+              <mat-select formControlName="currency" required>
+                <mat-option
+                  *ngFor="let currency of currencyKeys"
+                  [value]="currency"
+                >
+                  {{ currency }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note Field -->
+      <div class="mb-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Note</mat-label>
+          <textarea
+            matInput
+            formControlName="note"
+            rows="4"
+            placeholder="Enter additional notes"
+            maxlength="250"
+          ></textarea>
+          <mat-hint align="end"
+            >{{ incomeForm.get("note")?.value?.length || 0 }}/250</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mb-4 text-center">
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="incomeForm.invalid"
+          class="custom-btn w-100"
+        >
+          Add Income
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
