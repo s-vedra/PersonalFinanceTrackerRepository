@@ -48,4 +48,5 @@ export const userContractEnvironment = {
 export const gateawayServiceEnvironment = {
   verifyLoginToken:
     baseEnvironment.gateawayUrl + 'gateway-service/verify-login-token',
+  login: baseEnvironment.gateawayUrl + 'gateway-service/login',
 };

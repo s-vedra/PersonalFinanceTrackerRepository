@@ -32,24 +32,24 @@ export class ExpenseFormComponent {
   ) {}
 
   ngOnInit(): void {
-    this.authService.getAuthState().subscribe((user) => {
-      this.isLoggedIn = !!user;
-      this.user = user;
+    // this.authService.getAuthState().subscribe((user) => {
+    //   this.isLoggedIn = !!user;
+    //   this.user = user;
 
-      if (this.isLoggedIn) {
-        this.getAllCurrencies();
-        this.expenseForm = this.fb.group({
-          date: [null, Validators.required],
-          paymentIssue: [PaymentIssue.Card, Validators.required],
-          category: [ExpenseCategory.Others, Validators.required],
-          purpose: [null, Validators.required],
-          amount: [null, [Validators.required, Validators.min(1)]],
-          currency: [this.currencyKeys[0], Validators.required],
-          note: [''],
-          userContractId: [11],
-        });
-      }
+    // if (this.isLoggedIn) {
+    this.getAllCurrencies();
+    this.expenseForm = this.fb.group({
+      date: [null, Validators.required],
+      paymentIssue: [PaymentIssue.Card, Validators.required],
+      category: [ExpenseCategory.Others, Validators.required],
+      purpose: [null, Validators.required],
+      amount: [null, [Validators.required, Validators.min(1)]],
+      currency: [this.currencyKeys[0], Validators.required],
+      note: [''],
+      userContractId: [11],
     });
+    // }
+    // });
   }
 
   toggleSidebar() {

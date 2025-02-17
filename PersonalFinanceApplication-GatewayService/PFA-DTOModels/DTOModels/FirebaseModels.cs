@@ -1,4 +1,4 @@
-﻿namespace PersonalFinanceApplication_GatewayService.Models
+﻿namespace PFA_DTOModels.DTOModels
 {
     public class TokenRequest
     {

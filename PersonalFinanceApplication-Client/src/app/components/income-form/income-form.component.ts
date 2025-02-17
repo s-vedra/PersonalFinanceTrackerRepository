@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../custom-dialogs/error-dialog.component';
 import { User } from 'firebase/auth';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-income-form',
@@ -35,24 +36,24 @@ export class IncomeFormComponent {
   ) {}
 
   ngOnInit(): void {
-    this.authService.getAuthState().subscribe((user) => {
-      this.isLoggedIn = !!user;
-      this.user = user;
+    // const token = localStorage.getItem('authToken');
+    // const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // this.authService.getAuthState().subscribe((user) => {
+    //   this.isLoggedIn = !!user;
+    //   this.user = user;
 
-      if (this.isLoggedIn) {
-        this.getAllCurrencies();
-        this.incomeForm = this.fb.group({
-          date: [null, Validators.required],
-          paymentIssue: [PaymentIssue.Card, Validators.required],
-          category: [IncomeCategory.Allowance, Validators.required],
-          purpose: [null, Validators.required],
-          amount: [null, [Validators.required, Validators.min(1)]],
-          currency: [this.currencyKeys[0], Validators.required],
-          note: [''],
-          userContractId: [11],
-        });
-      }
+    this.getAllCurrencies();
+    this.incomeForm = this.fb.group({
+      date: [null, Validators.required],
+      paymentIssue: [PaymentIssue.Card, Validators.required],
+      category: [IncomeCategory.Allowance, Validators.required],
+      purpose: [null, Validators.required],
+      amount: [null, [Validators.required, Validators.min(1)]],
+      currency: [this.currencyKeys[0], Validators.required],
+      note: [''],
+      userContractId: [11],
     });
+    // });
   }
 
   showErrorDialog(message: string) {

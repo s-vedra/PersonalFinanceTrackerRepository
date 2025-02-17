@@ -3,6 +3,9 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../custom-dialogs/error-dialog.component';
 import { Router } from '@angular/router';
+import { LoginDto } from 'src/app/viewModels/models/loginModel';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,36 +13,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
   errorMessage: string = '';
+  loginForm!: FormGroup;
 
   constructor(
     private authService: AuthServiceService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
+
   onSubmit() {
-    if (this.email && this.password) {
-      this.authService
-        .loginWithEmail(this.email, this.password)
-        .then(() => {
-          this.authService.getToken().subscribe(
-            () => {
-              this.router.navigate(['/dashboard']);
-            },
-            () => {
-              this.errorMessage = 'Token verification failed';
-              this.showErrorDialog(this.errorMessage);
-            }
-          );
-        })
-        .catch(() => {
-          this.errorMessage = 'Email or Password is incorrect';
-          this.showErrorDialog(this.errorMessage);
-        });
+    if (this.loginForm.invalid) {
+      return;
     }
+    const loginDto: LoginDto = this.loginForm.value;
+    const requestPayload = { loginRequestDto: loginDto };
+    this.authService.loginWithEmail(requestPayload).subscribe({
+      next: (response) => {
+        console.log('Login response:', response); // Log the response to verify
+        localStorage.setItem('authToken', response);
+        this.router.navigate(['dashboard']);
+      },
+      error: () => {
+        this.handleError('Email or Password is incorrect');
+      },
+    });
+  }
+
+  private handleError(message: string) {
+    this.errorMessage = message;
+    this.showErrorDialog(this.errorMessage);
   }
 
   loginWithGoogle() {

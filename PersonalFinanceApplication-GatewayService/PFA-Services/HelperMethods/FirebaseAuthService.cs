@@ -1,13 +1,28 @@
 ﻿using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
-using PersonalFinanceApplication_GatewayService.Models;
-using TokenResponse = PersonalFinanceApplication_GatewayService.Models.TokenResponse;
+using PFA_DTOModels.Commands;
+using PFA_DTOModels.DTOModels;
+using PFA_Services.Abstractions;
 
-namespace PersonalFinanceApplication_GatewayService.FirebaseService
+
+namespace PFA_Services.HelperMethods
 {
-    public class FirebaseAuthService
+    public class FirebaseAuthService : IFirebaseAuthService
     {
+        public async Task<UserRecord> GetCurrentUser(LoginRequestModels request)
+        {
+            var user = await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(request.Email);
+            if (user is null)
+                throw new ArgumentException($"Wrong credentials specified");
+            return user;
+        }
+
+        public async Task<string> FirebaseCustomToken(UserRecord request)
+        {
+            return await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(request.Uid);
+        }
+
         public static void InitializeFirebase(FirebaseSettings firebaseSettings)
         {
             try

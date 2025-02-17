@@ -5,6 +5,7 @@ import { catchError, throwError, from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { gateawayServiceEnvironment } from 'src/environments/environment.development';
+import { LoginDto, LoginRequestDto } from '../viewModels/models/loginModel';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,8 @@ export class AuthServiceService {
     return this.afAuth.authState as Observable<User | null>;
   }
 
-  loginWithEmail(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+  loginWithEmail(requestPayload: LoginRequestDto): Observable<any> {
+    return this.http.post(this.gateawayApi.login, requestPayload);
   }
 
   loginWithGoogle() {

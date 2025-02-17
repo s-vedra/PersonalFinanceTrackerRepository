@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PersonalFinanceApplication_GatewayService.FirebaseService;
-using PersonalFinanceApplication_GatewayService.Models;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using PFA_Services.CommandHandlers;
 
 namespace PersonalFinanceApplication_GatewayService.Controllers
 {
@@ -8,20 +8,39 @@ namespace PersonalFinanceApplication_GatewayService.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost("verify-login-token")]
-        public async Task<IActionResult> VerifyLoginToken([FromBody] TokenRequest request)
+        private readonly IMediator _mediator;
+        public AuthController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequestCommand request)
         {
             try
             {
-                var tokenResponse = await FirebaseAuthService.IsValidToken(request);
-                return Ok(tokenResponse);
+                var response = await _mediator.Send(request);
+                return Ok(response);
             }
-            catch
+            catch (Exception ex)
             {
-                return Unauthorized("Invalid token");
+                return Unauthorized(new { Message = "Invalid credentials", Error = ex.Message });
             }
+
         }
+
+        //[HttpPost("verify-login-token")]
+        //public async Task<IActionResult> VerifyLoginToken(TokenRequest request)
+        //{
+        //    try
+        //    {
+        //        var tokenResponse = await FirebaseAuthService.IsValidToken(request);
+        //        return Ok(tokenResponse);
+        //    }
+        //    catch
+        //    {
+        //        return Unauthorized("Invalid token");
+        //    }
+        //}
     }
-
-
 }

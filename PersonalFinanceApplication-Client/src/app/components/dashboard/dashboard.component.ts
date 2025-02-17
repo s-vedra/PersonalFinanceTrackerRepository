@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
     //   this.isLoggedIn = !!user;
     //   this.user = user;
     //   if (this.isLoggedIn) {
-    //     this.getDataFromApi();
+    this.getDataFromApi();
     //   }
     // });
   }
