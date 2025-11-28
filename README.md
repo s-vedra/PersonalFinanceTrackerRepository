@@ -22,8 +22,6 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 
 - **Mediator Design Pattern:** Employing the Mediator pattern to enhance modularity and maintainability within the application.
 
-- **N-Tier Architecture:** Structuring the application using the N-Tier architecture, promoting scalability and separation of concerns.
-
 - **CQRS (Command Query Responsibility Segregation):** Implementing CQRS to separate the read and write operations, enhancing system performance and scalability.
   
 - **RabbitMQ**: Utilizing RabbitMQ as a message broker to facilitate asynchronous communication between microservices, ensuring decoupling of services, reliable message delivery, and efficient handling of high-volume transactions.
