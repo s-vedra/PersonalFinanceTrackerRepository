@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApplication_API.RefitSettings;
 using PersonalFinanceApplication_DAL;
@@ -14,6 +15,8 @@ using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
+using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 using PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
@@ -46,7 +49,6 @@ builder.Services.AddSwaggerGen();
 //repositories
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
-//builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
 builder.Services.AddScoped<IUserContractRepository, UserContractRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -80,9 +82,9 @@ builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 
 //services
 builder.Services.AddSingleton<IProducerService, ProducerService>();
+builder.Services.AddSingleton<IEnvironmentValidationService, EnvironmentValidationService>();
 
 //rabbitMQSConfig
-builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 
 
@@ -106,23 +108,45 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(ExpenseBalanceChangedEventHandler).Assembly);
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = $"https://securetoken.google.com/financetracker-auth";
+        options.Audience = "financetracker-auth";
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = $"https://securetoken.google.com/financetracker-auth",
+            ValidateAudience = true,
+            ValidAudience = "financetracker-auth",
+            ValidateLifetime = true
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
 
-//app.MapGrpcService<AccountBalanceService>();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<DataContext>();
+    dbContext.Database.Migrate();
+}
+
 
 app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

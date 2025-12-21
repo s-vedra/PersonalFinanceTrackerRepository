@@ -1,4 +1,6 @@
-﻿namespace PersonalFinanceApplication_Services.ExtensionMethods
+﻿using PersonalFinanceApplication_Services.HelperMethods;
+
+namespace PersonalFinanceApplication_Services.ExtensionMethods
 {
     public static class ExtensionMethod
     {
@@ -12,6 +14,14 @@
             if (obj is not null)
                 return false;
             return true;
+        }
+    }
+
+    public class EnvironmentValidationService : IEnvironmentValidationService
+    {
+        public bool IsDocker()
+        {
+            return Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
         }
     }
 }

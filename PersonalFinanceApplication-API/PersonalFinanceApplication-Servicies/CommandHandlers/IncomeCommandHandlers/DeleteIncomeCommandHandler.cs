@@ -1,7 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
+using PersonalFinanceApplication_DomainModels.Enums;
+using PersonalFinanceApplication_DomainModels.Models;
+using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
+using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
 using PersonalFinanceApplication_Services.ExtensionMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
@@ -22,9 +27,13 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
     public class DeleteIncomeCommandHandler : IRequestHandler<DeleteIncomeCommand>
     {
         private readonly IIncomeRepository _incomeRepository;
-        public DeleteIncomeCommandHandler(IIncomeRepository incomeRepository)
+        private readonly IBalanceEventService _balanceEventService;
+        private readonly IUserContractRepository _userContractRepository;
+        public DeleteIncomeCommandHandler(IIncomeRepository incomeRepository, IBalanceEventService balanceEventService, IUserContractRepository userContractRepository)
         {
             _incomeRepository = incomeRepository;
+            _balanceEventService = balanceEventService;
+            _userContractRepository = userContractRepository;
         }
 
         public async Task Handle(DeleteIncomeCommand request, CancellationToken cancellationToken)
@@ -33,9 +42,19 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
             validator.ValidateAndThrow(request);
 
             var income = _incomeRepository.GetEntity(request.Id);
-            if (!income.IsNull())
+            var userContract = _userContractRepository.GetEntity(income.UserContractId);
+            var expense = new ExpenseDto()
+            {
+                Amount = income.Amount,
+                UserContractId = income.UserContractId,
+                Currency = income.Currency,
+                Date = income.Date
+            };
+            if (!income.IsNull() && !userContract.IsNull())
             {
                 _incomeRepository.DeleteEntity(income);
+                await _balanceEventService.AdjustBalanceOnRecievedExpense(userContract.ToDto(), expense,
+                        TransactionType.Expense, BalanceOperation.AdjustBalance);
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
@@ -8,6 +9,7 @@ namespace PersonalFinanceApplication_API.Controllers
 {
     [Route("api/dashboard/income")]
     [ApiController]
+    //[Authorize]
     public class FinanceTrackerIncomeController : ControllerBase
     {
         private readonly IMediator _mediator;

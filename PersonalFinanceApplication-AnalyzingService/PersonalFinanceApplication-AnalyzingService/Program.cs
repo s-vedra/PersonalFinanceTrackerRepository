@@ -1,4 +1,3 @@
-using gRPCClient;
 using Microsoft.EntityFrameworkCore;
 using PFA_DAL;
 using PFA_DAL.Abstraction;
@@ -8,6 +7,7 @@ using PFA_MBService.ServiceProperties;
 using PFA_Services.Abstractions;
 using PFA_Services.AnalyzingService;
 using PFA_Services.BalanceProcessingService;
+using PFA_Services.HelperMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +25,6 @@ builder.Services.AddHostedService<ListenerService>();
 builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
 
 //rabbitMQSConfig
-builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -33,19 +32,36 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
+var isInDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
+if (isInDocker)
+{
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(80, listenOptions =>
+        {
+            listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+        });
+    });
+}
 
 builder.Services.AddGrpc();
 
 var app = builder.Build();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<DataContext>();
+    dbContext.Database.Migrate();
+}
+
 app.MapGrpcService<AccountBalanceRetriever>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

@@ -55,6 +55,9 @@ namespace PersonalFinanceApplication_DAL
             modelBuilder.Entity<Income>()
             .Property(x => x.Purpose)
             .IsRequired(false);
+            modelBuilder.Entity<Income>()
+            .Property(e => e.Amount)
+            .HasPrecision(18, 6);
 
             modelBuilder.Entity<Expense>()
            .Property(x => x.Note)
@@ -62,6 +65,9 @@ namespace PersonalFinanceApplication_DAL
             modelBuilder.Entity<Expense>()
            .Property(x => x.Purpose)
            .IsRequired(false);
+            modelBuilder.Entity<Expense>()
+            .Property(e => e.Amount)
+            .HasPrecision(18, 6);
 
             modelBuilder.Entity<Income>()
             .ToTable("Income")

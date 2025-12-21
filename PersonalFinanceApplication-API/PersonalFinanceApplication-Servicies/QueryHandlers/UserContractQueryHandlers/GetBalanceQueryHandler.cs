@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
+using PersonalFinanceApplication_Services.HelperMethods;
 using PFA_gRPCClient.ServiceProperties;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers
@@ -18,14 +19,32 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHan
     public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, AccountBalanceDto>
     {
         private readonly gRPCSettings _gRPCSettings;
-        public GetBalanceQueryHandler(IOptions<gRPCSettings> options)
+        private readonly IEnvironmentValidationService _environmentValidationService;
+        public GetBalanceQueryHandler(IOptions<gRPCSettings> options, IEnvironmentValidationService environmentValidationService)
         {
             _gRPCSettings = options.Value;
+            _environmentValidationService = environmentValidationService;
         }
 
         public async Task<AccountBalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
-            using var channel = GrpcChannel.ForAddress(_gRPCSettings.AccountBalanceServiceEndpoint);
+            var isInDocker = _environmentValidationService.IsDocker();
+
+            var channelOptions = !isInDocker
+            ? new GrpcChannelOptions()
+            : new GrpcChannelOptions
+            {
+                HttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                },
+                Credentials = ChannelCredentials.Insecure
+            };
+
+            using var channel = GrpcChannel.ForAddress(_gRPCSettings.AccountBalanceServiceEndpoint, channelOptions);
+
+
             var client = new AccountBalanceService.AccountBalanceServiceClient(channel);
             var accountBalanceRequest = new AccountBalanceRequest()
             {
@@ -39,7 +58,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHan
             }
             catch (RpcException exception)
             {
-                throw new CoreException(exception, "No account balance found");
+                throw new CoreException(exception.Message);
             }
         }
     }
