@@ -2,7 +2,7 @@
 
 namespace PersonalFinanceApplication_DAL.Abstraction
 {
-    public interface IExpenseRepository : IRepository<Expense, int>
+    public interface IExpenseRepository : IRepository<Expense, Guid>
     {
     }
 }

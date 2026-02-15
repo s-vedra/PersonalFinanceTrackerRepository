@@ -1,27 +1,25 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
-using PersonalFinanceApplication_DAL.Implementation;
 using PersonalFinanceApplication_DomainModels.Enums;
-using PersonalFinanceApplication_DomainModels.Models;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
-namespace PersonalFinanceApplication_Services.CommandHandlers
+namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers
 {
     public class DeleteExpenseCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid ReferenceId { get; set; }
     }
 
     public class DeleteExpenseValidator : AbstractValidator<DeleteExpenseCommand>
     {
         public DeleteExpenseValidator()
         {
-            RuleFor(x => x.Id).NotNull().NotEmpty();
+            RuleFor(x => x.ReferenceId).NotNull().NotEmpty();
         }
     }
 
@@ -42,13 +40,13 @@ namespace PersonalFinanceApplication_Services.CommandHandlers
             var validator = new DeleteExpenseValidator();
             validator.ValidateAndThrow(request);
 
-            var expense = _expenseRepository.GetEntity(request.Id);
+            var expense = _expenseRepository.GetEntity(request.ReferenceId);
             var userContract = _userContractRepository.GetEntity(expense.UserContractId);
             var income = new IncomeDto()
             {
-                Amount = expense.Amount, 
-                UserContractId = expense.UserContractId,  
-                Currency = expense.Currency, 
+                Amount = expense.Amount,
+                UserContractId = expense.UserContractId,
+                Currency = expense.Currency,
                 Date = expense.Date
             };
             if (!expense.IsNull() && !userContract.IsNull())

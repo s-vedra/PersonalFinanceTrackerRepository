@@ -1,6 +1,4 @@
-﻿using PersonalFinanceApplication_Services.HelperMethods;
-
-namespace PersonalFinanceApplication_Services.ExtensionMethods
+﻿namespace PersonalFinanceApplication_Services.HelperMethods
 {
     public static class ExtensionMethod
     {

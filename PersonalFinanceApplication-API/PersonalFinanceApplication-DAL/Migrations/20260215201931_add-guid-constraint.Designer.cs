@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonalFinanceApplication_DAL;
 
@@ -11,9 +12,11 @@ using PersonalFinanceApplication_DAL;
 namespace PersonalFinanceApplication_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260215201931_add-guid-constraint")]
+    partial class addguidconstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,58 +165,9 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             Amount = 20000m,
                             Category = 2,
                             Currency = "MKD",
-                            Date = new DateTime(2026, 2, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2026, 2, 15, 0, 0, 0, 0, DateTimeKind.Local),
                             PaymentIssue = 2,
-                            ReferenceId = new Guid("c5961183-093d-4d93-b2ff-c0d70b936967"),
-                            UserContractId = 1
-                        });
-                });
-
-            modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.SalaryScheduler", b =>
-                {
-                    b.Property<int>("SalarySchedulerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalarySchedulerId"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("DayOfMonth")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastExecutedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ReferenceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("UserContractId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SalarySchedulerId");
-
-                    b.HasIndex("ReferenceId")
-                        .IsUnique();
-
-                    b.ToTable("ScheduledSalary", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            SalarySchedulerId = 1,
-                            Amount = 57890m,
-                            DayOfMonth = 1,
-                            IsActive = true,
-                            LastExecutedAt = new DateTime(2026, 2, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            ReferenceId = new Guid("de945c4a-16be-460a-b842-c8602a6aede0"),
+                            ReferenceId = new Guid("a7eeffde-f603-4181-a14c-1fb15b16ff5f"),
                             UserContractId = 1
                         });
                 });
@@ -293,7 +247,7 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             UserContractId = 1,
                             ContractName = "PCB CA-4879",
                             ContractType = 1,
-                            DateOpened = new DateTime(2026, 2, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateOpened = new DateTime(2026, 2, 15, 0, 0, 0, 0, DateTimeKind.Local),
                             UserContractStatus = 2,
                             UserId = 1
                         });

@@ -4,6 +4,7 @@ namespace PersonalFinanceApplication_DTO.DtoModels
 {
     public class IncomeDto
     {
+        public Guid ReferenceId { get; set; }
         public int IncomeId { get; set; }
         public DateTime Date { get; set; }
         public PaymentIssue PaymentIssue { get; set; }

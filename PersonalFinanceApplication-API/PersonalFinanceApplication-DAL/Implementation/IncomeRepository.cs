@@ -12,11 +12,11 @@ namespace PersonalFinanceApplication_DAL.Implementation
             _dataContext = dataContext;
         }
 
-        public int AddEntity(Income entity)
+        public Guid AddEntity(Income entity)
         {
             _dataContext.Incomes.Add(entity);
             _dataContext.SaveChanges();
-            return entity.IncomeId;
+            return entity.ReferenceId;
         }
 
         public IEnumerable<Income> GetAllEntities()
@@ -24,9 +24,9 @@ namespace PersonalFinanceApplication_DAL.Implementation
             return _dataContext.Incomes;
         }
 
-        public Income GetEntity(int id)
+        public Income GetEntity(Guid id)
         {
-            return _dataContext.Incomes.FirstOrDefault(x => x.IncomeId == id);
+            return _dataContext.Incomes.FirstOrDefault(x => x.ReferenceId == id);
         }
 
         public void UpdateEntity(Income currentEntity, Income updatedEntity)

@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
-using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
+using PersonalFinanceApplication_Services.QueryHandlers.IncomeQueryHandlers;
 using System.ComponentModel.DataAnnotations;
 
 namespace PersonalFinanceApplication_API.Controllers
@@ -37,11 +36,11 @@ namespace PersonalFinanceApplication_API.Controllers
         }
 
         [HttpGet("income/{id}")]
-        public async Task<IActionResult> GetIncome(int id)
+        public async Task<IActionResult> GetIncome(Guid id)
         {
             try
             {
-                var income = await _mediator.Send(new GetIncomeQuery() { Id = id });
+                var income = await _mediator.Send(new GetIncomeQuery() { ReferenceId = id });
                 return Ok(income);
             }
             catch (ValidationException ex)
@@ -92,11 +91,11 @@ namespace PersonalFinanceApplication_API.Controllers
         }
 
         [HttpDelete("income/{id}")]
-        public async Task<IActionResult> DeleteIncome(int id)
+        public async Task<IActionResult> DeleteIncome(Guid id)
         {
             try
             {
-                await _mediator.Send(new DeleteIncomeCommand() { Id = id });
+                await _mediator.Send(new DeleteIncomeCommand() { ReferenceId = id });
                 return Ok();
             }
             catch (ValidationException ex)

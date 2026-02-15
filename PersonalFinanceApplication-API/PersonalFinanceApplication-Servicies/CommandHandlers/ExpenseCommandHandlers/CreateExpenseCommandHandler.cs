@@ -6,11 +6,11 @@ using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
-namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
+namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers
 {
-    public class CreateExpenseCommand : IRequest<int>
+    public class CreateExpenseCommand : IRequest<Guid>
     {
         public ExpenseDto ExpenseDto { get; set; }
     }
@@ -27,7 +27,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
         }
     }
 
-    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, int>
+    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
     {
         private readonly IExpenseRepository _expenseRepository;
         private readonly IUserContractRepository _userContractRepository;
@@ -40,7 +40,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
             _balanceEventService = balanceEventService;
         }
 
-        public async Task<int> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateExpenseValidator();
             validator.ValidateAndThrow(request);
@@ -52,7 +52,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands
                 await _balanceEventService.AdjustBalanceOnRecievedExpense(userContract.ToDto(), request.ExpenseDto,
                     TransactionType.Expense, BalanceOperation.AdjustBalance);
 
-                return expense.ExpenseId;
+                return expense.ReferenceId;
             }
             throw new CoreException("User contract cannot be found");
         }

@@ -6,11 +6,11 @@ using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
 {
-    public class CreateIncomeCommand : IRequest<int>
+    public class CreateIncomeCommand : IRequest<Guid>
     {
         public IncomeDto IncomeDto { get; set; }
     }
@@ -27,7 +27,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
         }
     }
 
-    public class CreateIncomeCommandHandler : IRequestHandler<CreateIncomeCommand, int>
+    public class CreateIncomeCommandHandler : IRequestHandler<CreateIncomeCommand, Guid>
     {
         private readonly IIncomeRepository _incomeRepository;
         private readonly IUserContractRepository _userContractRepository;
@@ -41,7 +41,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
             _balanceEventService = balanceEventService;
         }
 
-        public async Task<int> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateIncomeCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateIncomeValidator();
             validator.ValidateAndThrow(request);
@@ -52,7 +52,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
                 _incomeRepository.AddEntity(income);
                 await _balanceEventService.AdjustBalanceOnRecievedIncome(userContract.ToDto(), request.IncomeDto,
                     TransactionType.Income, BalanceOperation.AdjustBalance);
-                return income.IncomeId;
+                return income.ReferenceId;
             }
             throw new CoreException("User contract cannot be found");
         }

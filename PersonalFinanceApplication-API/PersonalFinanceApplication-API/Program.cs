@@ -1,4 +1,5 @@
 using FluentValidation;
+using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,17 +10,16 @@ using PersonalFinanceApplication_DAL.Implementation;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_MBService.ProducerService;
 using PersonalFinanceApplication_MBService.ServiceProperties;
-using PersonalFinanceApplication_Services.CommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
-using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
+using PersonalFinanceApplication_Services.CommandHandlers.SalarySchedulerHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent;
 using PersonalFinanceApplication_Services.HelperMethods;
 using PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
-using PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers;
+using PersonalFinanceApplication_Services.QueryHandlers.IncomeQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers;
 using PFA_gRPCClient.ServiceProperties;
 using Refit;
@@ -51,16 +51,19 @@ builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IUserContractRepository, UserContractRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
+builder.Services.AddScoped<IScheduledSalaryRepository, ScheduledSalaryRepository>();
 
 //command handlers
-builder.Services.AddScoped<IRequestHandler<CreateExpenseCommand, int>, CreateExpenseCommandHandler>();
-builder.Services.AddScoped<IRequestHandler<CreateIncomeCommand, int>, CreateIncomeCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateExpenseCommand, Guid>, CreateExpenseCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateIncomeCommand, Guid>, CreateIncomeCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteExpenseCommand>, DeleteExpenseCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteIncomeCommand>, DeleteIncomeCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateExpenseCommand>, UpdateExpenseCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateIncomeCommand>, UpdateIncomeCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateUserContractCommand, int>, CreateUserContractCommandHandler>();
 builder.Services.AddScoped<IBalanceEventService, BalanceEventService>();
+builder.Services.AddScoped<IRequestHandler<CreateSalarySchedulerCommand, Guid>, CreateSalarySchedulerHandler>();
 
 //query handlers
 builder.Services.AddScoped<IRequestHandler<GetBalanceQuery, AccountBalanceDto>, GetBalanceQueryHandler>();
@@ -83,6 +86,7 @@ builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 //services
 builder.Services.AddSingleton<IProducerService, ProducerService>();
 builder.Services.AddSingleton<IEnvironmentValidationService, EnvironmentValidationService>();
+builder.Services.AddScoped<ISalarySchedulerService, SalarySchedulerService>();
 
 //rabbitMQSConfig
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
@@ -125,8 +129,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+//add hangfire
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DatabaseConnection")));
+
+builder.Services.AddHangfireServer();
+
 
 var app = builder.Build();
+
+
+app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<ISalarySchedulerService>(
+    "monthly-salary-job",
+    service => service.ProcessMonthlySalariesAsync(),
+    Cron.Daily);
 
 using (var scope = app.Services.CreateScope())
 {

@@ -9,6 +9,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
         {
             return new IncomeDto
             {
+                ReferenceId = income.ReferenceId,
                 IncomeId = income.IncomeId,
                 PaymentIssue = income.PaymentIssue,
                 Amount = income.Amount,
@@ -25,6 +26,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
         {
             return new Income
             {
+                ReferenceId = income.ReferenceId,
                 IncomeId = income.IncomeId,
                 PaymentIssue = income.PaymentIssue,
                 Amount = income.Amount,

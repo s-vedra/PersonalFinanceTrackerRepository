@@ -4,20 +4,20 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
 {
     public class GetExpenseQuery : IRequest<ExpenseDto>
     {
-        public int Id { get; set; }
+        public Guid ReferenceId { get; set; }
     }
 
     public class GetExpenseValidator : AbstractValidator<GetExpenseQuery>
     {
         public GetExpenseValidator()
         {
-            RuleFor(x => x.Id).NotNull().NotEmpty();
+            RuleFor(x => x.ReferenceId).NotNull().NotEmpty();
         }
     }
 
@@ -34,7 +34,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers
             var validator = new GetExpenseValidator();
             validator.ValidateAndThrow(request);
 
-            var expense = _expenseRepository.GetEntity(request.Id);
+            var expense = _expenseRepository.GetEntity(request.ReferenceId);
             if (!expense.IsNull())
                 return expense.ToDto();
             throw new CoreException("No expense found");

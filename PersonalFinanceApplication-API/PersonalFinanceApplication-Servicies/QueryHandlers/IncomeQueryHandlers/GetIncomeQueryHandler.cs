@@ -4,20 +4,20 @@ using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
-namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQueryHandlers
+namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeQueryHandlers
 {
     public class GetIncomeQuery : IRequest<IncomeDto>
     {
-        public int Id { get; set; }
+        public Guid ReferenceId { get; set; }
     }
 
     public class GetIncomeValidator : AbstractValidator<GetIncomeQuery>
     {
         public GetIncomeValidator()
         {
-            RuleFor(x => x.Id).NotNull().NotEmpty();
+            RuleFor(x => x.ReferenceId).NotNull().NotEmpty();
         }
     }
 
@@ -34,7 +34,7 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.IncomeAndBalanceQuer
             var validator = new GetIncomeValidator();
             validator.ValidateAndThrow(request);
 
-            var income = _incomeRepository.GetEntity(request.Id);
+            var income = _incomeRepository.GetEntity(request.ReferenceId);
             if (!income.IsNull())
                 return income.ToDto();
             throw new CoreException("No income found");

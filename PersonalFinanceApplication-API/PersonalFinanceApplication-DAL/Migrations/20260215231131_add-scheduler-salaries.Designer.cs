@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonalFinanceApplication_DAL;
 
@@ -11,9 +12,11 @@ using PersonalFinanceApplication_DAL;
 namespace PersonalFinanceApplication_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260215231131_add-scheduler-salaries")]
+    partial class addschedulersalaries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,7 +167,7 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             Currency = "MKD",
                             Date = new DateTime(2026, 2, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             PaymentIssue = 2,
-                            ReferenceId = new Guid("c5961183-093d-4d93-b2ff-c0d70b936967"),
+                            ReferenceId = new Guid("91545bee-2720-4960-b51b-333178d8ce33"),
                             UserContractId = 1
                         });
                 });
@@ -190,6 +193,7 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ReferenceId")
@@ -204,18 +208,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("ScheduledSalary", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            SalarySchedulerId = 1,
-                            Amount = 57890m,
-                            DayOfMonth = 1,
-                            IsActive = true,
-                            LastExecutedAt = new DateTime(2026, 2, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            ReferenceId = new Guid("de945c4a-16be-460a-b842-c8602a6aede0"),
-                            UserContractId = 1
-                        });
                 });
 
             modelBuilder.Entity("PersonalFinanceApplication_DomainModels.Models.User", b =>

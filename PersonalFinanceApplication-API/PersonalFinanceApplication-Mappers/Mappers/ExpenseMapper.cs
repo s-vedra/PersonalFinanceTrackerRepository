@@ -9,6 +9,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
         {
             return new ExpenseDto
             {
+                ReferenceId = expense.ReferenceId,
                 ExpenseId = expense.ExpenseId,
                 PaymentIssue = expense.PaymentIssue,
                 Amount = expense.Amount,
@@ -25,6 +26,7 @@ namespace PersonalFinanceApplication_Mappers.Mappers
         {
             return new Expense
             {
+                ReferenceId = expense.ReferenceId,
                 ExpenseId = expense.ExpenseId,
                 PaymentIssue = expense.PaymentIssue,
                 Amount = expense.Amount,

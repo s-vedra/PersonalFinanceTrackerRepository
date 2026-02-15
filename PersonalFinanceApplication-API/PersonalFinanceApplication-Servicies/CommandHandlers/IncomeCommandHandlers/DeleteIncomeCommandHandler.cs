@@ -7,20 +7,20 @@ using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
-using PersonalFinanceApplication_Services.ExtensionMethods;
+using PersonalFinanceApplication_Services.HelperMethods;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers
 {
     public class DeleteIncomeCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid ReferenceId { get; set; }
     }
 
     public class DeleteIncomeValidator : AbstractValidator<DeleteIncomeCommand>
     {
         public DeleteIncomeValidator()
         {
-            RuleFor(x => x.Id).NotNull().NotEmpty();
+            RuleFor(x => x.ReferenceId).NotNull().NotEmpty();
         }
     }
 
@@ -41,7 +41,7 @@ namespace PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandl
             var validator = new DeleteIncomeValidator();
             validator.ValidateAndThrow(request);
 
-            var income = _incomeRepository.GetEntity(request.Id);
+            var income = _incomeRepository.GetEntity(request.ReferenceId);
             var userContract = _userContractRepository.GetEntity(income.UserContractId);
             var expense = new ExpenseDto()
             {

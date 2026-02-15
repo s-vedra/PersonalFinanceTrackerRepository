@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApplication_Services.CommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
-using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommands;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 
 namespace Personal_Finance_Application_API.Controllers
@@ -37,11 +36,11 @@ namespace Personal_Finance_Application_API.Controllers
         }
 
         [HttpGet("expenditure/{id}")]
-        public async Task<IActionResult> GetExpenditure(int id)
+        public async Task<IActionResult> GetExpenditure(Guid id)
         {
             try
             {
-                var expenditure = await _mediator.Send(new GetExpenseQuery() { Id = id });
+                var expenditure = await _mediator.Send(new GetExpenseQuery() { ReferenceId = id });
                 return Ok(expenditure);
             }
             catch (ValidationException ex)
@@ -91,11 +90,11 @@ namespace Personal_Finance_Application_API.Controllers
         }
 
         [HttpDelete("expenditure/{id}")]
-        public async Task<IActionResult> DeleteExpenditure(int id)
+        public async Task<IActionResult> DeleteExpenditure(Guid id)
         {
             try
             {
-                await _mediator.Send(new DeleteExpenseCommand() { Id = id });
+                await _mediator.Send(new DeleteExpenseCommand() { ReferenceId = id });
                 return Ok();
             }
             catch (ValidationException ex)

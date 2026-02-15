@@ -32,27 +32,25 @@ namespace PFA_Services.BalanceProcessingService
                 var balanceChangedEventWrapper = JsonConvert.DeserializeObject<BalanceChangedEventWrapper>(response);
                 var accountBalance = _accountBalanceRepository.GetEntity(balanceChangedEventWrapper.UserContract.UserContractId);
 
-                accountBalance.Amount = CalculateAccountBalance(balanceChangedEventWrapper, accountBalance, response);
+                accountBalance.Amount = ApplyBalanceChange(balanceChangedEventWrapper, accountBalance, response);
                 _accountBalanceRepository.UpdateEntity(accountBalance, accountBalance);
             }
         }
 
-        private decimal CalculateAccountBalance(BalanceChangedEventWrapper balanceChangedEvent,
+        private decimal ApplyBalanceChange(BalanceChangedEventWrapper balanceChangedEvent,
             AccountBalance accountBalance, string response)
         {
             if (balanceChangedEvent.TransactionType is TransactionType.Income)
             {
                 var incomeBalanceEvent = JsonConvert.DeserializeObject<IncomeBalanceEvent>(response);
                 accountBalance.LastDateAddedMoney = incomeBalanceEvent.Income.Date;
-                return accountBalance.Amount += incomeBalanceEvent.Income.Amount;
+                return incomeBalanceEvent.FinalAmount;
             }
             else if (balanceChangedEvent.TransactionType == TransactionType.Expense)
             {
                 var expenseBalanceEvent = JsonConvert.DeserializeObject<ExpenseBalanceEvent>(response);
-                if (accountBalance.Amount < expenseBalanceEvent.Expense.Amount)
-                    throw new CoreException("The account balance is insufficient for the expense amount.");
                 accountBalance.LastDateDrawMoney = expenseBalanceEvent.Expense.Date;
-                return accountBalance.Amount -= expenseBalanceEvent.Expense.Amount;
+                return expenseBalanceEvent.FinalAmount;
             }
             throw new CoreException("Invalid transaction type");
         }

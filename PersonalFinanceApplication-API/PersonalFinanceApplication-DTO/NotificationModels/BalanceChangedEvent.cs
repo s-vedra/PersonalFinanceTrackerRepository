@@ -23,6 +23,7 @@ namespace PersonalFinanceApplication_DTO.NotificationModels
         public IncomeCategory IncomeCategory { get; set; }
         public PaymentIssue PaymentIssue { get; set; }
         public TransactionType TransactionType { get; set; }
+        public decimal FinalAmount { get; set; }
 
     }
 
@@ -32,5 +33,6 @@ namespace PersonalFinanceApplication_DTO.NotificationModels
         public ExpenseCategory ExpenseCategory { get; set; }
         public PaymentIssue PaymentIssue { get; set; }
         public TransactionType TransactionType { get; set; }
+        public decimal FinalAmount { get; set; }
     }
 }

@@ -4,6 +4,7 @@ namespace PersonalFinanceApplication_DomainModels.Models
 {
     public class Expense
     {
+        public Guid ReferenceId { get; set; } = Guid.NewGuid();
         public int ExpenseId { get; set; }
         public DateTime Date { get; set; }
         public PaymentIssue PaymentIssue { get; set; }
