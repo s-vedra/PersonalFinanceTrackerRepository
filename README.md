@@ -12,6 +12,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 - **Exchange Rates:** Utilize a proxy API to obtain the most recent exchange rates, providing you with up-to-date currency conversion information.
 
 - **Analyzing Service:** Seamlessly analyze your financial data and generate insights to make informed decisions based on detailed reports and statistics.
+  
+- **Recurring Background Jobs (Hangfire):** Automate monthly salary addition, ensuring financial data stays up-to-date without manual intervention.
 
 ## Technologies Used
 - **.NET Core:** The foundation of the application, ensuring cross-platform compatibility and high-performance execution.
@@ -25,7 +27,10 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 - **CQRS (Command Query Responsibility Segregation):** Implementing CQRS to separate the read and write operations, enhancing system performance and scalability.
   
 - **RabbitMQ**: Utilizing RabbitMQ as a message broker to facilitate asynchronous communication between microservices, ensuring decoupling of services, reliable message delivery, and efficient handling of high-volume transactions.
+  
 - **gRPC**: Enables high-performance, cross-platform communication between microservices using a lightweight and efficient Remote Procedure Call (RPC) framework. Ideal for real-time, low-latency, and high-throughput interactions between distributed systems.
+  
+- **Hangfire**: Background job scheduling for automated recurring tasks like adding salaries, updating balances, or sending notifications.
 
 ## Client Side
 The client-side development is currently in progress, bringing a user-friendly interface to interact with the Personal Finance Tracker API.
@@ -34,7 +39,7 @@ The client-side development is currently in progress, bringing a user-friendly i
 Enhancements in the form of authorization and authentication are underway to ensure secure access to your financial data.
 
 ## Architecture
-![{54E87A17-78F9-4311-B55B-1936F57B3141}](https://github.com/user-attachments/assets/7686a405-03dc-45b8-8190-6274552fe23d)
+<img width="884" height="645" alt="{9DAF7231-C83D-4BC3-A4EF-D72C5BDA118D}" src="https://github.com/user-attachments/assets/55053f7c-ea81-4c01-a5d7-e3c1aba93031" />
 
 
 
