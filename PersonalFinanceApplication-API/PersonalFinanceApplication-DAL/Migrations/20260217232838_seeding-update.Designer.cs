@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonalFinanceApplication_DAL;
 
@@ -11,9 +12,11 @@ using PersonalFinanceApplication_DAL;
 namespace PersonalFinanceApplication_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260217232838_seeding-update")]
+    partial class seedingupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +35,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -61,7 +61,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         {
                             AccountBalanceId = 1,
                             Amount = 1070000m,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "MKD",
                             IsActive = true,
                             LastDateAddedMoney = new DateTime(2025, 12, 22, 20, 14, 18, 586, DateTimeKind.Unspecified),
@@ -84,9 +83,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -138,9 +134,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -181,12 +174,11 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             IncomeId = 1,
                             Amount = 20000m,
                             Category = 2,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "MKD",
                             Date = new DateTime(2026, 2, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             PaymentIssue = 2,
-                            ReferenceId = new Guid("99317879-581b-4a4a-870e-a8df648a9685"),
+                            ReferenceId = new Guid("5f1f8875-a836-4a24-b43d-559eccb1ee8f"),
                             UserContractId = 1
                         });
                 });
@@ -201,9 +193,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -239,12 +228,11 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         {
                             SalarySchedulerId = 1,
                             Amount = 57890m,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "MKD",
                             DayOfMonth = 1,
                             IsActive = true,
                             LastExecutedAt = new DateTime(2026, 2, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            ReferenceId = new Guid("0759ad85-2127-423e-ba4a-1afddb6c5769"),
+                            ReferenceId = new Guid("fc2c884f-2e40-4851-af57-4e11657dc220"),
                             UserContractId = 1
                         });
                 });
@@ -256,9 +244,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -287,7 +272,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                         new
                         {
                             UserId = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "admin",
                             IsActive = true,
                             LastName = "admin",
@@ -310,9 +294,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
 
                     b.Property<int>("ContractType")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOpened")
                         .HasColumnType("datetime2");
@@ -338,7 +319,6 @@ namespace PersonalFinanceApplication_DAL.Migrations
                             UserContractId = 1,
                             ContractName = "PCB CA-4879",
                             ContractType = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOpened = new DateTime(2026, 2, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             UserContractStatus = 2,

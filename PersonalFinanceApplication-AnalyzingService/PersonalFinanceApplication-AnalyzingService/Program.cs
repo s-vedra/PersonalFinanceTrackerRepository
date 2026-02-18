@@ -32,7 +32,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
-var isInDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+var isInDocker = Environment.GetEnvironmentVariable("DOCKER_LOCAL_CONTAINER_RUNNING") == "true";
 
 if (isInDocker)
 {

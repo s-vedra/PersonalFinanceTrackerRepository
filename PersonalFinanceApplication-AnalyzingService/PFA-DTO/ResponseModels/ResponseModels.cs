@@ -11,6 +11,8 @@
         public string Currency { get; set; }
         public string Note { get; set; }
         public int UserContractId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 
     public class ExpenseDto
@@ -24,6 +26,8 @@
         public string Currency { get; set; }
         public string Note { get; set; }
         public int UserContractId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 
     public class UserContractDto
@@ -35,6 +39,8 @@
         public ICollection<IncomeDto> Incomes { get; set; }
         public ICollection<ExpenseDto> Expenses { get; set; }
         public int UserId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 
     public class AccountBalanceDto
@@ -45,6 +51,8 @@
         public DateTime LastDateAddedMoney { get; set; }
         public DateTime LastDateDrawMoney { get; set; }
         public int UserContractId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 
     public class BalanceOperationData

@@ -15,5 +15,7 @@ namespace PersonalFinanceApplication_DomainModels.Models
         public string Note { get; set; }
         public int UserContractId { get; set; }
         public UserContract UserContract { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime Created { get; set; }
     }
 }

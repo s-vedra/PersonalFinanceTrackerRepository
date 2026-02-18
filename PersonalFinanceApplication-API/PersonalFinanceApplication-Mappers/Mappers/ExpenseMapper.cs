@@ -18,7 +18,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Date = expense.Date,
                 Note = expense.Note,
                 Purpose = expense.Purpose,
-                UserContractId = expense.UserContractId
+                UserContractId = expense.UserContractId,
+                IsActive = expense.IsActive,
+                Created = expense.Created
             };
         }
 
@@ -35,7 +37,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Date = expense.Date,
                 Note = expense.Note,
                 Purpose = expense.Purpose,
-                UserContractId = expense.UserContractId
+                UserContractId = expense.UserContractId,
+                IsActive = expense.IsActive,
+                Created = expense.Created
             };
         }
     }

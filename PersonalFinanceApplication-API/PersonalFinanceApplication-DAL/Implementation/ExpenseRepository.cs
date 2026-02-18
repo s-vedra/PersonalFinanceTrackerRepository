@@ -18,14 +18,14 @@ namespace PersonalFinanceApplication_DAL.Implementation
             return entity.ReferenceId;
         }
 
-        public IEnumerable<Expense> GetAllEntities()
+        public IQueryable<Expense> GetAllEntities()
         {
-            return _dataContext.Expenses;
+            return _dataContext.Expenses.Where(x => x.IsActive);
         }
 
         public Expense GetEntity(Guid id)
         {
-            return _dataContext.Expenses.FirstOrDefault(x => x.ReferenceId == id);
+            return _dataContext.Expenses.FirstOrDefault(x => x.ReferenceId == id && x.IsActive);
         }
 
         public void UpdateEntity(Expense currentEntity, Expense updatedEntity)
@@ -36,7 +36,8 @@ namespace PersonalFinanceApplication_DAL.Implementation
 
         public void DeleteEntity(Expense entity)
         {
-            _dataContext.Expenses.Remove(entity);
+            entity.IsActive = false;
+            _dataContext.Expenses.Update(entity);
             _dataContext.SaveChanges();
         }
     }

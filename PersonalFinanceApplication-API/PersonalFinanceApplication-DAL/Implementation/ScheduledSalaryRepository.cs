@@ -20,23 +20,24 @@ namespace PersonalFinanceApplication_DAL.Implementation
 
         public void DeleteEntity(SalaryScheduler entity)
         {
-            _dataContext.ScheduledSalaries.Remove(entity);
+            entity.IsActive = false;
+            _dataContext.ScheduledSalaries.Update(entity);
             _dataContext.SaveChanges();
         }
 
         public IQueryable<SalaryScheduler> GetActiveSalarySchedulers()
         {
-            return _dataContext.ScheduledSalaries.Where(x => x.DayOfMonth == DateTime.Today.Day);
+            return _dataContext.ScheduledSalaries.Where(x => x.DayOfMonth == DateTime.Today.Day && x.IsActive);
         }
 
-        public IEnumerable<SalaryScheduler> GetAllEntities()
+        public IQueryable<SalaryScheduler> GetAllEntities()
         {
-            return _dataContext.ScheduledSalaries;
+            return _dataContext.ScheduledSalaries.Where(x => x.IsActive);
         }
 
         public SalaryScheduler GetEntity(Guid id)
         {
-            return _dataContext.ScheduledSalaries.FirstOrDefault(x => x.ReferenceId == id);
+            return _dataContext.ScheduledSalaries.FirstOrDefault(x => x.ReferenceId == id && x.IsActive);
         }
 
         public void UpdateEntity(SalaryScheduler currentEntity, SalaryScheduler updatedEntity)

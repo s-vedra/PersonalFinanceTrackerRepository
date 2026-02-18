@@ -14,7 +14,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Amount = accountBalance.Amount, 
                 Currency = accountBalance.Currency, 
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney, 
-                LastDateDrawMoney = accountBalance.LastDateDrawMoney
+                LastDateDrawMoney = accountBalance.LastDateDrawMoney,
+                IsActive = accountBalance.IsActive,
+                Created = accountBalance.Created
             };
         }
 
@@ -26,7 +28,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Amount = accountBalance.Amount,
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
-                LastDateDrawMoney = accountBalance.LastDateDrawMoney
+                LastDateDrawMoney = accountBalance.LastDateDrawMoney,
+                IsActive = accountBalance.IsActive,
+                Created = accountBalance.Created
             };
         }
 
@@ -39,7 +43,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 Currency = accountBalanceRequest.Currency,
                 LastDateAddedMoney = accountBalanceRequest.LastDateAddedMoney.ToDateTime(),
                 LastDateDrawMoney = accountBalanceRequest.LastDateDrawMoney.ToDateTime(), 
-                UserContractId = accountBalanceRequest.UserContractId
+                UserContractId = accountBalanceRequest.UserContractId,
+                IsActive = accountBalanceRequest.IsActive,
+                Created = accountBalanceRequest.Created.ToDateTime()
             };
         }
     }

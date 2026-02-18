@@ -13,5 +13,7 @@ namespace PersonalFinanceApplication_DTO.DtoModels
         public int UserId { get; set; }
         public UserContractStatus UserContractStatus { get; set; }
         public DateTime DateOpened { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 }

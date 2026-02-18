@@ -14,5 +14,7 @@ namespace PersonalFinanceApplication_DTO.DtoModels
         public string Currency { get; set; }
         public string Note { get; set; }
         public int UserContractId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 }

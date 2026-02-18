@@ -8,5 +8,7 @@
         public string UserName { get; set; }
         public string Password { get; set; }
         public ICollection<UserContract> UserContracts { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime Created { get; set; }
     }
 }

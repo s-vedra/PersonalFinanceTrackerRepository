@@ -14,6 +14,8 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Password = user.Password,
+                IsActive = user.IsActive,
+                Created = user.Created
             };
         }
 
@@ -25,7 +27,9 @@ namespace PersonalFinanceApplication_Mappers.Mappers
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Password = user.Password
+                Password = user.Password,
+                IsActive = user.IsActive,
+                Created = user.Created
             };
         }
     }

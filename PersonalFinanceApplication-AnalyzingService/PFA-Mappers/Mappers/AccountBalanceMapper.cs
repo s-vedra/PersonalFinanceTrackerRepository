@@ -16,7 +16,8 @@ namespace PFA_Mappers.Mappers
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
                 LastDateDrawMoney = accountBalance.LastDateDrawMoney, 
-                UserContractId = accountBalance.UserContractId
+                UserContractId = accountBalance.UserContractId,
+                Created = accountBalance.Created
             };
         }
 
@@ -29,7 +30,8 @@ namespace PFA_Mappers.Mappers
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney,
                 LastDateDrawMoney = accountBalance.LastDateDrawMoney,
-                UserContractId = accountBalance.UserContractId
+                UserContractId = accountBalance.UserContractId,
+                Created = accountBalance.Created
             };
         }
 
@@ -42,7 +44,9 @@ namespace PFA_Mappers.Mappers
                 Currency = accountBalance.Currency,
                 LastDateAddedMoney = accountBalance.LastDateAddedMoney.ToUniversalTime().ToTimestamp(),
                 LastDateDrawMoney = accountBalance.LastDateDrawMoney.ToUniversalTime().ToTimestamp(),
-                UserContractId = accountBalance.UserContractId
+                UserContractId = accountBalance.UserContractId,
+                IsActive = accountBalance.IsActive,
+                Created = accountBalance.Created.ToUniversalTime().ToTimestamp()
             };
         }
     }

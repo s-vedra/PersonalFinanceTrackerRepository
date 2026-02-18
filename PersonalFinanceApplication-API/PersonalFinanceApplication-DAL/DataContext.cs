@@ -30,7 +30,8 @@ namespace PersonalFinanceApplication_DAL
                 Category = IncomeCategory.Salary,
                 Amount = 20000,
                 Currency = "MKD",
-                UserContractId = 1
+                UserContractId = 1,
+                IsActive = true
             };
 
             var userContract = new UserContract()
@@ -40,7 +41,8 @@ namespace PersonalFinanceApplication_DAL
                 ContractType = ContractType.CurrentAccount,
                 ContractName = "PCB CA-4879",
                 DateOpened = DateTime.Today,
-                UserContractStatus = UserContractStatus.Active
+                UserContractStatus = UserContractStatus.Active,
+                IsActive = true
             };
 
             var user = new User()
@@ -49,7 +51,8 @@ namespace PersonalFinanceApplication_DAL
                 FirstName = "admin",
                 LastName = "admin",
                 UserName = "admin@admin",
-                Password = "admin123"
+                Password = "admin123",
+                IsActive = true
             };
 
             var accountBalance = new AccountBalance()
@@ -70,7 +73,8 @@ namespace PersonalFinanceApplication_DAL
                 DayOfMonth = 1,
                 IsActive = true,
                 LastExecutedAt = DateTime.Today,
-                ReferenceId = Guid.NewGuid()
+                ReferenceId = Guid.NewGuid(),
+                Currency = "MKD"
             };
 
             modelBuilder.Entity<Income>()

@@ -82,6 +82,7 @@ builder.Services.AddScoped<IValidator<DeleteIncomeCommand>, DeleteIncomeValidato
 builder.Services.AddScoped<IValidator<UpdateIncomeCommand>, UpdateIncomeValidator>();
 builder.Services.AddScoped<IValidator<GetExpenseQuery>, GetExpenseValidator>();
 builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
+builder.Services.AddScoped<IValidator<CreateSalarySchedulerCommand>, CreateSalaryScheduleValidator>();
 
 //services
 builder.Services.AddSingleton<IProducerService, ProducerService>();
@@ -138,8 +139,16 @@ builder.Services.AddHangfireServer();
 
 var app = builder.Build();
 
+var env = builder.Environment.EnvironmentName;
+if (env.Equals("Development") || env.Equals("Docker"))
+{
+    app.UseHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        Authorization = new[] { new HangfireAuthenticationFilter() }
+    });
+}
 
-app.UseHangfireDashboard();
+
 
 RecurringJob.AddOrUpdate<ISalarySchedulerService>(
     "monthly-salary-job",

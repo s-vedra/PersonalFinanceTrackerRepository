@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
@@ -25,6 +26,10 @@ namespace PersonalFinanceApplication_API.Controllers
                 var accountBalance = await _mediator.Send(new GetBalanceQuery() { UserContractId = id });
                 return Ok(accountBalance);
             }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -38,6 +43,10 @@ namespace PersonalFinanceApplication_API.Controllers
             {
                 await _mediator.Send(userContractDto);
                 return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

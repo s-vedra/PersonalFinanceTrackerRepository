@@ -8,5 +8,7 @@
         public DateTime LastDateAddedMoney { get; set; }
         public DateTime LastDateDrawMoney { get; set; }
         public int UserContractId { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime Created { get; set; }
     }
 }

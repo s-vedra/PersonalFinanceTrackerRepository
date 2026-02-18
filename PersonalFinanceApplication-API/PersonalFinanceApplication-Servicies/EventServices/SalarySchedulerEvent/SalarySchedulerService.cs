@@ -66,12 +66,12 @@ namespace PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent
                 {
                     Amount = salary.Amount,
                     Category = IncomeCategory.Salary,
-                    Currency = "MKD",
+                    Currency = salary.Currency,
                     Date = today,
                     PaymentIssue = PaymentIssue.Card,
                     UserContractId = salary.UserContractId,
                     ReferenceId = Guid.NewGuid(),
-                    Purpose = "Salary Scheduler"
+                    Purpose = "Salary-Scheduler"
                 }
             };
 

@@ -10,12 +10,13 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new UserContractDto
             {
                 UserContractId = userContract.UserContractId,
-                //AccountBalanceId = userContract.AccountBalanceId,
                 ContractType = userContract.ContractType,
                 UserId = userContract.UserId,
                 ContractName = userContract.ContractName,
                 DateOpened = userContract.DateOpened,
-                UserContractStatus = userContract.UserContractStatus
+                UserContractStatus = userContract.UserContractStatus,
+                IsActive = userContract.IsActive,
+                Created = userContract.Created
             };
         }
 
@@ -24,12 +25,13 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new UserContract
             {
                 UserContractId = userContract.UserContractId,
-                //AccountBalanceId = userContract.AccountBalanceId,
                 ContractType = userContract.ContractType,
                 UserId = userContract.UserId,
                 ContractName = userContract.ContractName, 
                 DateOpened = userContract.DateOpened, 
-                UserContractStatus = userContract.UserContractStatus
+                UserContractStatus = userContract.UserContractStatus,
+                IsActive = userContract.IsActive,
+                Created = userContract.Created
             };
         }
     }

@@ -21,18 +21,19 @@ namespace PersonalFinanceApplication_DAL.Implementation
 
         public void DeleteEntity(User entity)
         {
-            _dataContext.Users.Remove(entity);
+            entity.IsActive = false;
+            _dataContext.Users.Update(entity);
             _dataContext.SaveChanges();
         }
 
-        public IEnumerable<User> GetAllEntities()
+        public IQueryable<User> GetAllEntities()
         {
-            return _dataContext.Users;
+            return _dataContext.Users.Where(x => x.IsActive);
         }
 
         public User GetEntity(int id)
         {
-            return _dataContext.Users.FirstOrDefault(x => x.UserId == id);
+            return _dataContext.Users.FirstOrDefault(x => x.UserId == id && x.IsActive);
         }
 
         public void UpdateEntity(User currentEntity, User updatedEntity)

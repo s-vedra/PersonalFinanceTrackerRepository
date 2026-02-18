@@ -19,7 +19,7 @@
     {
         public bool IsDocker()
         {
-            return Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            return Environment.GetEnvironmentVariable("DOCKER_LOCAL_CONTAINER_RUNNING") == "true";
         }
     }
 }

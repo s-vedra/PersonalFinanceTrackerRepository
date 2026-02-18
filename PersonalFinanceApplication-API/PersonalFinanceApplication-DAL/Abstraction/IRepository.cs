@@ -8,7 +8,7 @@
 
         void UpdateEntity(T currentEntity, T updatedEntity);
 
-        IEnumerable<T> GetAllEntities();
+        IQueryable<T> GetAllEntities();
 
         void DeleteEntity(T entity);
     }

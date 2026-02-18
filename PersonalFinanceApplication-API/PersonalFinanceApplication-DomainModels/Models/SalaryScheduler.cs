@@ -10,5 +10,7 @@
         public bool IsActive { get; set; } = true;
         public DateTime? LastExecutedAt { get; set; }
         public string Notes { get; set; }
+        public string Currency { get; set; }
+        public DateTime Created { get; set; }
     }
 }
