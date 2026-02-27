@@ -21,7 +21,7 @@ namespace PersonalFinanceApplicationExchangeRates_API.Controllers
         {
             _exchangeRatesClient = exchangeRatesClient;
             _currenciesClient = currenciesClient;
-            _apiKey = configuration["ApiSettings:ApiKey"];
+            _apiKey = Environment.GetEnvironmentVariable(configuration["ApiSettings:ApiKey"]);
             _availableTypes = configuration.GetSection("ApiSettings:AvailableCurrencyTypes").Get<string[]>();
             _requestService = requestService;
         }
