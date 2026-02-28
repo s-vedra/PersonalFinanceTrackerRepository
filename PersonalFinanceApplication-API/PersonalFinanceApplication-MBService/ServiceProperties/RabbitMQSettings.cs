@@ -7,6 +7,7 @@
         public string Password { get; set; }
         public string UserName { get; set; }
         public string UpdateBalanceQueue { get; set; }
+        public string InsightGenerationQueue { get; set; }
         public string DefaultAnalyzingExchange { get; set; }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
-using PersonalFinanceApplication_DomainModels.Enums;
 using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
-using PersonalFinanceApplication_DTO.NotificationModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.EventServices.BalanceEvent
 {

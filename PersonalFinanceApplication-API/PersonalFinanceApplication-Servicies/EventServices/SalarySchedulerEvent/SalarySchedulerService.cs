@@ -1,10 +1,8 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
-using PersonalFinanceApplication_DomainModels.Enums;
 using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent
 {
@@ -71,7 +69,8 @@ namespace PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent
                     PaymentIssue = PaymentIssue.Card,
                     UserContractId = salary.UserContractId,
                     ReferenceId = Guid.NewGuid(),
-                    Purpose = "Salary-Scheduler"
+                    Purpose = "Salary-Scheduler",
+                    IsActive = true
                 }
             };
 

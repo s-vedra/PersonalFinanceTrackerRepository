@@ -1,8 +1,10 @@
-﻿namespace PFA_Services.Abstractions
+﻿using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
+
+namespace PFA_Services.Abstractions
 {
     public interface IBalanceProcessingService
     {
-        void SyncBalanceToAccount(string response);
-        void AccountBalanceOpeningService(string response);
+        void SyncBalanceToAccount(BalanceChangedEvent response, TransactionType transactionType);
+        void AccountBalanceOpeningService(BalanceChangedEvent response);
     }
 }

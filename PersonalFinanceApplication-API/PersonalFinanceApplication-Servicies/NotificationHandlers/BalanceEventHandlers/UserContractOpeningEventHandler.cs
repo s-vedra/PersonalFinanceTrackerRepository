@@ -1,21 +1,20 @@
-﻿using MediatR;
-using PersonalFinanceApplication_DTO.NotificationModels;
-using PersonalFinanceApplication_MBService.ProducerService;
+﻿using MassTransit;
+using MediatR;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers
 {
     public class UserContractOpeningEventHandler : INotificationHandler<UserContractOpeningEvent>
     {
-        private readonly IProducerService _producerService;
-        public UserContractOpeningEventHandler(IProducerService producerService)
+        private readonly IBus _bus;
+        public UserContractOpeningEventHandler(IBus bus)
         {
-            _producerService = producerService;
+            _bus = bus;
         }
 
-        public Task Handle(UserContractOpeningEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(UserContractOpeningEvent notification, CancellationToken cancellationToken)
         {
-            _producerService.PublishMessageToUpdateBalanceQueue(notification);
-            return Task.CompletedTask;
+            await _bus.Publish(notification);
         }
     }
 }

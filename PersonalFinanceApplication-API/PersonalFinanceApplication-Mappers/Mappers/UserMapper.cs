@@ -1,5 +1,5 @@
 ﻿using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Mappers.Mappers
 {

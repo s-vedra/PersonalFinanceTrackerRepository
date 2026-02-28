@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers;
@@ -43,6 +42,25 @@ namespace PersonalFinanceApplication_API.Controllers
             {
                 await _mediator.Send(userContractDto);
                 return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("user-contract/summary/{id}")]
+
+        public async Task<IActionResult> GetUserContractSummary(int id)
+        {
+            try
+            {
+                var userContractSummary = await _mediator.Send(new GetUserContractSummaryQuery() { UserContractId = id });
+                return Ok(userContractSummary);
             }
             catch (ValidationException ex)
             {

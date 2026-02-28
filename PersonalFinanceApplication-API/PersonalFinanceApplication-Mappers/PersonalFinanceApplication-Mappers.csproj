@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PersonalFinanceApplication.DTO" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PersonalFinanceApplication-DTO\PersonalFinanceApplication-DTO.csproj" />
     <ProjectReference Include="..\PFA-gRPCClient\PFA-gRPCClient.csproj" />
   </ItemGroup>

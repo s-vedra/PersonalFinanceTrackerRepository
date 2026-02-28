@@ -1,6 +1,6 @@
-﻿using PFA_DTO.ResponseModels;
+﻿using MediatR;
 
-namespace PFA_DTO.NotificationModels
+namespace PersonalFinanceTracker_Contracts.FinancialTrackerContracts
 {
     public abstract class BalanceChangedEvent
     {
@@ -9,13 +9,13 @@ namespace PFA_DTO.NotificationModels
         public BalanceOperation BalanceOperation { get; set; }
     }
 
-    public class UserContractOpeningEvent : BalanceChangedEvent
+    public class UserContractOpeningEvent : BalanceChangedEvent, INotification
     {
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
     }
 
-    public class IncomeBalanceEvent : BalanceChangedEvent
+    public class IncomeBalanceEvent : BalanceChangedEvent, INotification
     {
         public IncomeDto Income { get; set; }
         public IncomeCategory IncomeCategory { get; set; }
@@ -25,23 +25,12 @@ namespace PFA_DTO.NotificationModels
 
     }
 
-    public class ExpenseBalanceEvent : BalanceChangedEvent
+    public class ExpenseBalanceEvent : BalanceChangedEvent, INotification
     {
         public ExpenseDto Expense { get; set; }
         public ExpenseCategory ExpenseCategory { get; set; }
         public PaymentIssue PaymentIssue { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal FinalAmount { get; set; }
-    }
-
-    public class BalanceChangedEventWrapper
-    {
-        public TransactionType TransactionType { get; set; }
-        public UserContractDto UserContract { get; set; }
-    }
-
-    public class BalanceOperationProcessor
-    {
-        public BalanceOperation BalanceOperation { get; set; }
     }
 }

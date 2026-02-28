@@ -1,5 +1,5 @@
 ﻿using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Mappers.Mappers
 {
@@ -11,10 +11,10 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             {
                 ReferenceId = expense.ReferenceId,
                 ExpenseId = expense.ExpenseId,
-                PaymentIssue = expense.PaymentIssue,
+                PaymentIssue = (PaymentIssue)expense.PaymentIssue,
                 Amount = expense.Amount,
                 Currency = expense.Currency,
-                Category = expense.Category,
+                Category = (ExpenseCategory)expense.Category,
                 Date = expense.Date,
                 Note = expense.Note,
                 Purpose = expense.Purpose,
@@ -30,10 +30,10 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             {
                 ReferenceId = expense.ReferenceId,
                 ExpenseId = expense.ExpenseId,
-                PaymentIssue = expense.PaymentIssue,
+                PaymentIssue = (PersonalFinanceApplication_DomainModels.Enums.PaymentIssue)expense.PaymentIssue,
                 Amount = expense.Amount,
                 Currency = expense.Currency,
-                Category = expense.Category,
+                Category = (PersonalFinanceApplication_DomainModels.Enums.ExpenseCategory)expense.Category,
                 Date = expense.Date,
                 Note = expense.Note,
                 Purpose = expense.Purpose,

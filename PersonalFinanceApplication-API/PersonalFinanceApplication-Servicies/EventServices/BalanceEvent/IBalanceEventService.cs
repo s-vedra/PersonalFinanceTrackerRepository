@@ -1,5 +1,4 @@
-﻿using PersonalFinanceApplication_DomainModels.Enums;
-using PersonalFinanceApplication_DTO.DtoModels;
+﻿using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.EventServices.BalanceEvent
 {

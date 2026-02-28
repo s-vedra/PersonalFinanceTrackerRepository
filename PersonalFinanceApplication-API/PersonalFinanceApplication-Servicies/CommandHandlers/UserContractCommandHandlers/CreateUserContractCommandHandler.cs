@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
 using PersonalFinanceApplication_DAL.Abstraction;
-using PersonalFinanceApplication_DomainModels.Enums;
 using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Mappers.Mappers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers
 {

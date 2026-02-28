@@ -2,6 +2,6 @@
 {
     public class gRPCSettings
     {
-        public string AccountBalanceServiceEndpoint { get; set; }
+        public string AnalyzingServiceEndpoint { get; set; }
     }
 }

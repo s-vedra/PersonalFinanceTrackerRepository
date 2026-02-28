@@ -1,13 +1,10 @@
 ﻿using Grpc.Core;
-using Grpc.Net.Client;
 using gRPCClient;
 using MediatR;
-using Microsoft.Extensions.Options;
-using PersonalFinanceApplication_DTO.DtoModels;
 using PersonalFinanceApplication_Exceptions.Exceptions;
 using PersonalFinanceApplication_Mappers.Mappers;
-using PersonalFinanceApplication_Services.HelperMethods;
-using PFA_gRPCClient.ServiceProperties;
+using PersonalFinanceApplication_Services.GrpcServiceConnection;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers
 {
@@ -18,32 +15,15 @@ namespace PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHan
 
     public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, AccountBalanceDto>
     {
-        private readonly gRPCSettings _gRPCSettings;
-        private readonly IEnvironmentValidationService _environmentValidationService;
-        public GetBalanceQueryHandler(IOptions<gRPCSettings> options, IEnvironmentValidationService environmentValidationService)
+        private readonly IGrpcServiceConnection _grpcServiceConnection;
+        public GetBalanceQueryHandler(IGrpcServiceConnection grpcServiceConnection)
         {
-            _gRPCSettings = options.Value;
-            _environmentValidationService = environmentValidationService;
+            _grpcServiceConnection = grpcServiceConnection;
         }
 
         public async Task<AccountBalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
-            var isInDocker = _environmentValidationService.IsDocker();
-
-            var channelOptions = !isInDocker
-            ? new GrpcChannelOptions()
-            : new GrpcChannelOptions
-            {
-                HttpHandler = new HttpClientHandler
-                {
-                    ServerCertificateCustomValidationCallback =
-                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                },
-                Credentials = ChannelCredentials.Insecure
-            };
-
-            using var channel = GrpcChannel.ForAddress(_gRPCSettings.AccountBalanceServiceEndpoint, channelOptions);
-
+            var channel = _grpcServiceConnection.GetGrpcClient();
 
             var client = new AccountBalanceService.AccountBalanceServiceClient(channel);
             var accountBalanceRequest = new AccountBalanceRequest()

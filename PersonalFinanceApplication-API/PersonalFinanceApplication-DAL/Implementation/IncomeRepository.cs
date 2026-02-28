@@ -41,5 +41,10 @@ namespace PersonalFinanceApplication_DAL.Implementation
             _dataContext.Incomes.Update(entity);
             _dataContext.SaveChanges();
         }
+
+        public IQueryable<Income> GetIncomesPerUserContract(int userContractId)
+        {
+            return _dataContext.Incomes.Where(x => x.IsActive && x.UserContractId == userContractId);
+        }
     }
 }

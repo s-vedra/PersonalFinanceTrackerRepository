@@ -1,4 +1,4 @@
-﻿namespace PFA_DTO.ResponseModels
+﻿namespace PersonalFinanceTracker_Contracts.FinancialTrackerContracts
 {
     public enum IncomeCategory
     {
@@ -37,7 +37,7 @@
 
     public enum TransactionType
     {
-        Income = 1, 
+        Income = 1,
         Expense
     }
 
@@ -47,5 +47,14 @@
         AdjustBalance,
         RemoveBalance,
         RetrieveBalance
+    }
+
+    public enum UserContractStatus
+    {
+        New = 1,
+        Active,
+        Closed,
+        Inactive,
+        Terminated
     }
 }

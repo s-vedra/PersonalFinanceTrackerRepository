@@ -1,5 +1,6 @@
 using FluentValidation;
 using Hangfire;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,6 @@ using PersonalFinanceApplication_API.RefitSettings;
 using PersonalFinanceApplication_DAL;
 using PersonalFinanceApplication_DAL.Abstraction;
 using PersonalFinanceApplication_DAL.Implementation;
-using PersonalFinanceApplication_DTO.DtoModels;
-using PersonalFinanceApplication_MBService.ProducerService;
 using PersonalFinanceApplication_MBService.ServiceProperties;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
@@ -16,13 +15,16 @@ using PersonalFinanceApplication_Services.CommandHandlers.SalarySchedulerHandler
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
 using PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent;
+using PersonalFinanceApplication_Services.GrpcServiceConnection;
 using PersonalFinanceApplication_Services.HelperMethods;
 using PersonalFinanceApplication_Services.NotificationHandlers.BalanceEventHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.IncomeQueryHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.UserContractQueryHandlers;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 using PFA_gRPCClient.ServiceProperties;
 using Refit;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +73,7 @@ builder.Services.AddScoped<IRequestHandler<GetExpenseQuery, ExpenseDto>, GetExpe
 builder.Services.AddScoped<IRequestHandler<GetIncomeQuery, IncomeDto>, GetIncomeQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<GetExpensesQuery, List<ExpenseDto>>, GetExpensesQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<GetIncomesQuery, List<IncomeDto>>, GetIncomesQueryHandler>();
-
+builder.Services.AddScoped<IRequestHandler<GetUserContractSummaryQuery, UserContractSummaryDto>, GetUserContractSummaryQueryHandler>();
 
 //validator
 builder.Services.AddScoped<IValidator<CreateExpenseCommand>, CreateExpenseValidator>();
@@ -85,13 +87,29 @@ builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 builder.Services.AddScoped<IValidator<CreateSalarySchedulerCommand>, CreateSalaryScheduleValidator>();
 
 //services
-builder.Services.AddSingleton<IProducerService, ProducerService>();
 builder.Services.AddSingleton<IEnvironmentValidationService, EnvironmentValidationService>();
 builder.Services.AddScoped<ISalarySchedulerService, SalarySchedulerService>();
+builder.Services.AddScoped<IGrpcServiceConnection, GrpcServiceConnection>();
 
 //rabbitMQSConfig
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
+var rabbitSettings = builder.Configuration.GetSection("RabbitMQSettings").Get<RabbitMQSettings>();
 
+//MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(new Uri($"rabbitmq://{rabbitSettings.HostName}:{rabbitSettings.Port}/"), h =>
+        {
+            h.Username(rabbitSettings.UserName);
+            h.Password(rabbitSettings.Password);
+        });
+
+        cfg.UseRawJsonSerializer();
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 //refit settings
 builder.Services.AddScoped(x => RestService.For<IProxyApi>(builder.Configuration["ApiSettings:ApiProxyUrl"]));
@@ -135,6 +153,11 @@ builder.Services.AddHangfire(config =>
     config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
 builder.Services.AddHangfireServer();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect("localhost:6379");
+});
 
 
 var app = builder.Build();

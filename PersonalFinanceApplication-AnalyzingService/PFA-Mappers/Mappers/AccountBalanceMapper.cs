@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using gRPCClient;
 using PFA_DM.Models;
-using PFA_DTO.ResponseModels;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PFA_Mappers.Mappers
 {

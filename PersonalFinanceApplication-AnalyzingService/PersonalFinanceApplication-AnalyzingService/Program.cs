@@ -1,13 +1,13 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PFA_DAL;
 using PFA_DAL.Abstraction;
 using PFA_DAL.Implementation;
-using PFA_MBService.ConsumerService;
 using PFA_MBService.ServiceProperties;
 using PFA_Services.Abstractions;
-using PFA_Services.AnalyzingService;
+using PFA_Services.AIInsightService;
 using PFA_Services.BalanceProcessingService;
-using PFA_Services.HelperMethods;
+using PFA_Services.ConsumerService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +19,40 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //services
-builder.Services.AddScoped<IConsumerService, ConsumerService>();
 builder.Services.AddScoped<IBalanceProcessingService, BalanceProcessingService>();
-builder.Services.AddHostedService<ListenerService>();
 builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
+builder.Services.AddHttpClient<IAIInsightService, AIInsightService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:11434");
+});
 
 //rabbitMQSConfig
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
+var rabbitSettings = builder.Configuration.GetSection("RabbitMQSettings").Get<RabbitMQSettings>();
+
+
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ExpenseBalanceConsumer>();
+    x.AddConsumer<IncomeBalanceConsumer>();
+    x.AddConsumer<CreateUserContractConsumer>();
+    x.AddConsumer<AiInsightConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(new Uri($"rabbitmq://{rabbitSettings.HostName}:{rabbitSettings.Port}/"), h =>
+        {
+            h.Username(rabbitSettings.UserName);
+            h.Password(rabbitSettings.Password);
+        });
+
+        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(false));
+        cfg.UseRawJsonSerializer();
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

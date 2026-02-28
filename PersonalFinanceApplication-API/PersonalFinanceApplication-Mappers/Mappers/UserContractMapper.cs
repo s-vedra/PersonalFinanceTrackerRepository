@@ -1,5 +1,5 @@
 ﻿using PersonalFinanceApplication_DomainModels.Models;
-using PersonalFinanceApplication_DTO.DtoModels;
+using PersonalFinanceTracker_Contracts.FinancialTrackerContracts;
 
 namespace PersonalFinanceApplication_Mappers.Mappers
 {
@@ -10,11 +10,11 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new UserContractDto
             {
                 UserContractId = userContract.UserContractId,
-                ContractType = userContract.ContractType,
+                ContractType = (ContractType)userContract.ContractType,
                 UserId = userContract.UserId,
                 ContractName = userContract.ContractName,
                 DateOpened = userContract.DateOpened,
-                UserContractStatus = userContract.UserContractStatus,
+                UserContractStatus = (UserContractStatus)userContract.UserContractStatus,
                 IsActive = userContract.IsActive,
                 Created = userContract.Created
             };
@@ -25,11 +25,11 @@ namespace PersonalFinanceApplication_Mappers.Mappers
             return new UserContract
             {
                 UserContractId = userContract.UserContractId,
-                ContractType = userContract.ContractType,
+                ContractType = (PersonalFinanceApplication_DomainModels.Enums.ContractType)userContract.ContractType,
                 UserId = userContract.UserId,
                 ContractName = userContract.ContractName, 
                 DateOpened = userContract.DateOpened, 
-                UserContractStatus = userContract.UserContractStatus,
+                UserContractStatus = (PersonalFinanceApplication_DomainModels.Enums.UserContractStatus)userContract.UserContractStatus,
                 IsActive = userContract.IsActive,
                 Created = userContract.Created
             };

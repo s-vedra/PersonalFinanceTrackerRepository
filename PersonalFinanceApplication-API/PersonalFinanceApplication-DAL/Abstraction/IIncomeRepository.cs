@@ -4,5 +4,6 @@ namespace PersonalFinanceApplication_DAL.Abstraction
 {
     public interface IIncomeRepository : IRepository<Income,Guid>
     {
+        IQueryable<Income> GetIncomesPerUserContract(int userContractId);
     }
 }

@@ -40,5 +40,10 @@ namespace PersonalFinanceApplication_DAL.Implementation
             _dataContext.Expenses.Update(entity);
             _dataContext.SaveChanges();
         }
+
+        public IQueryable<Expense> GetExpendituresPerUserContract(int userContractId)
+        {
+            return _dataContext.Expenses.Where(x => x.IsActive && x.UserContractId == userContractId);
+        }
     }
 }
