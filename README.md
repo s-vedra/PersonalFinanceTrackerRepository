@@ -14,6 +14,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 - **Analyzing Service:** Seamlessly analyze your financial data and generate insights to make informed decisions based on detailed reports and statistics.
   
 - **Recurring Background Jobs (Hangfire):** Automate monthly salary addition, ensuring financial data stays up-to-date without manual intervention.
+  
+- **AI Insights with Deepseek LLM**: Leverage the Deepseek language model to generate intelligent financial insights and summaries from your data automatically.
 
 ## Technologies Used
 - **.NET Core:** The foundation of the application, ensuring cross-platform compatibility and high-performance execution.
@@ -31,6 +33,8 @@ Welcome to the **Personal Finance Tracker**, a comprehensive software applicatio
 - **gRPC**: Enables high-performance, cross-platform communication between microservices using a lightweight and efficient Remote Procedure Call (RPC) framework. Ideal for real-time, low-latency, and high-throughput interactions between distributed systems.
   
 - **Hangfire**: Background job scheduling for automated recurring tasks like adding salaries, updating balances, or sending notifications.
+  
+- **Deepseek LLM**: Integrating the Deepseek language model for AI-powered analysis and insights on financial data.
 
 ## Client Side
 The client-side development is currently in progress, bringing a user-friendly interface to interact with the Personal Finance Tracker API.
@@ -39,7 +43,8 @@ The client-side development is currently in progress, bringing a user-friendly i
 Enhancements in the form of authorization and authentication are underway to ensure secure access to your financial data.
 
 ## Architecture
-<img width="884" height="645" alt="{9DAF7231-C83D-4BC3-A4EF-D72C5BDA118D}" src="https://github.com/user-attachments/assets/55053f7c-ea81-4c01-a5d7-e3c1aba93031" />
+<img width="956" height="673" alt="{D8C41222-167F-483B-80B5-7B3C312F0DBD}" src="https://github.com/user-attachments/assets/f24c4d9f-a80f-47f2-81d7-606f00c25f92" />
+
 
 
 
