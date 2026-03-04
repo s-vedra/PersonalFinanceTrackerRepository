@@ -13,11 +13,14 @@
     <PackageReference Include="MediatR" Version="14.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PersonalFinanceApplication.DTO" Version="1.5.0" />
+    <PackageReference Include="PersonalFinanceApplication.DTO" Version="1.6.0" />
+    <PackageReference Include="Refit" Version="10.0.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.11.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PFA-DAL\PFA-DAL.csproj" />
+    <ProjectReference Include="..\PFA-DTO\PFA-DTO.csproj" />
     <ProjectReference Include="..\PFA-Exceptions\PFA-Exceptions.csproj" />
     <ProjectReference Include="..\PFA-gRPCServer\PFA-gRPCServer.csproj" />
     <ProjectReference Include="..\PFA-Mappers\PFA-Mappers.csproj" />

@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PFA-DAL\PFA-DAL.csproj" />
-    <ProjectReference Include="..\PFA-MBService\PFA-MBService.csproj" />
     <ProjectReference Include="..\PFA-Services\PFA-Services.csproj" />
   </ItemGroup>
 	

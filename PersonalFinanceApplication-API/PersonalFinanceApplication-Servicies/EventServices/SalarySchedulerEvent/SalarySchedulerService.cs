@@ -70,7 +70,8 @@ namespace PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent
                     UserContractId = salary.UserContractId,
                     ReferenceId = Guid.NewGuid(),
                     Purpose = "Salary-Scheduler",
-                    IsActive = true
+                    IsActive = true,
+                    Created = today
                 }
             };
 

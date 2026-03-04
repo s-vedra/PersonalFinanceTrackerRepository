@@ -40,6 +40,11 @@ namespace PersonalFinanceApplication_DAL.Implementation
             return _dataContext.ScheduledSalaries.FirstOrDefault(x => x.ReferenceId == id && x.IsActive);
         }
 
+        public SalaryScheduler GetSalarySchedulerPerUserContract(int userContractId)
+        {
+            return _dataContext.ScheduledSalaries.FirstOrDefault(x => x.UserContractId == userContractId && x.IsActive);
+        }
+
         public void UpdateEntity(SalaryScheduler currentEntity, SalaryScheduler updatedEntity)
         {
             _dataContext.Entry(currentEntity).CurrentValues.SetValues(updatedEntity);

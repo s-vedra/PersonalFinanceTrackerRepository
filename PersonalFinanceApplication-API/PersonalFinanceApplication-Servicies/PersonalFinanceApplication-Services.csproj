@@ -21,7 +21,7 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
     <PackageReference Include="MediatR" Version="14.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PersonalFinanceApplication.DTO" Version="1.5.0" />
+    <PackageReference Include="PersonalFinanceApplication.DTO" Version="1.6.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.11.8" />
   </ItemGroup>
 

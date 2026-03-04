@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PersonalFinanceApplication_Services.CommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers;
 using PersonalFinanceApplication_Services.QueryHandlers.ExpenseQueryHandlers;
 
@@ -17,12 +16,12 @@ namespace Personal_Finance_Application_API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("expenditures")]
-        public async Task<IActionResult> GetAllExpenditures()
+        [HttpGet("expenditures/{id}")]
+        public async Task<IActionResult> GetAllExpenditures(int id)
         {
             try
             {
-                var expenditures = await _mediator.Send(new GetExpensesQuery());
+                var expenditures = await _mediator.Send(new GetExpensesQuery() { UserContractId = id });
                 return Ok(expenditures);
             }
             catch (ValidationException ex)

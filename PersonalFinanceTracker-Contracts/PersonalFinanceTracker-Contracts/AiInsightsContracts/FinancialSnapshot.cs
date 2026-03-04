@@ -11,5 +11,6 @@ namespace PersonalFinanceTracker_Contracts.AiInsightsContracts
         public IEnumerable<ExpenseDto> Expenses { get; set; }
         public IEnumerable<IncomeDto> Incomes { get; set; }
         public decimal TotalAmountOnAccount { get; set; }
+        public string Currency { get; set; }
     }
 }

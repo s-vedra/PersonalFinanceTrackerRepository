@@ -17,12 +17,12 @@ namespace PersonalFinanceApplication_API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("incomes")]
-        public async Task<IActionResult> GetAllIncomes()
+        [HttpGet("incomes/{id}")]
+        public async Task<IActionResult> GetAllIncomes(int id)
         {
             try
             {
-                var incomes = await _mediator.Send(new GetIncomesQuery());
+                var incomes = await _mediator.Send(new GetIncomesQuery() { UserContractId = id });
                 return Ok(incomes);
             }
             catch (ValidationException ex)

@@ -3,11 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using PFA_DAL;
 using PFA_DAL.Abstraction;
 using PFA_DAL.Implementation;
-using PFA_MBService.ServiceProperties;
 using PFA_Services.Abstractions;
 using PFA_Services.AIInsightService;
 using PFA_Services.BalanceProcessingService;
 using PFA_Services.ConsumerService;
+using PFA_Services.FinancialSummaryCalculationService;
+using PFA_Services.ServiceProperties;
+using Refit;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,16 +24,23 @@ builder.Services.AddSwaggerGen();
 //services
 builder.Services.AddScoped<IBalanceProcessingService, BalanceProcessingService>();
 builder.Services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
-builder.Services.AddHttpClient<IAIInsightService, AIInsightService>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:11434");
-});
+builder.Services.AddScoped<IAIInsightService, AIInsightService>();
+builder.Services.AddScoped<IFinancialSummaryCalculationService, FinancialSummaryCalculationService>();
 
 //rabbitMQSConfig
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 var rabbitSettings = builder.Configuration.GetSection("RabbitMQSettings").Get<RabbitMQSettings>();
 
 
+//refit settings
+var httpClient = new HttpClient
+{
+    BaseAddress = new Uri(builder.Configuration["AiInsightSettings:AiClientUrl"]),
+    Timeout = TimeSpan.FromMinutes(5)
+};
+builder.Services.AddScoped(x => RestService.For<IAiClient>(httpClient));
+var aiClient = RestService.For<IAiClient>(httpClient);
+builder.Services.Configure<AiInsightSettings>(builder.Configuration.GetSection("AiInsightSettings"));
 
 builder.Services.AddMassTransit(x =>
 {
@@ -73,6 +83,11 @@ if (isInDocker)
 }
 
 builder.Services.AddGrpc();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect(builder.Configuration["RedisSettings:RedisDatabaseEndpoint"]);
+});
 
 var app = builder.Build();
 

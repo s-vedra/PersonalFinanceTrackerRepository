@@ -18,7 +18,6 @@ COPY ["./PFA-DTO/PFA-DTO.csproj", "PFA-DTO/"]
 COPY ["./PFA-Exceptions/PFA-Exceptions.csproj", "PFA-Exceptions/"]
 COPY ["./PFA-gRPCServer/PFA-gRPCServer.csproj", "PFA-gRPCServer/"]
 COPY ["./PFA-Mappers/PFA-Mappers.csproj", "PFA-Mappers/"]
-COPY ["./PFA-MBService/PFA-MBService.csproj", "PFA-MBService/"]
 COPY ["./PFA-Services/PFA-Services.csproj", "PFA-Services/"]
 
 

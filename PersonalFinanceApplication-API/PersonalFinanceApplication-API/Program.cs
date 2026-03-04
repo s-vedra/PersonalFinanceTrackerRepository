@@ -13,6 +13,7 @@ using PersonalFinanceApplication_Services.CommandHandlers.ExpenseCommandHandlers
 using PersonalFinanceApplication_Services.CommandHandlers.IncomeCommandHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.SalarySchedulerHandlers;
 using PersonalFinanceApplication_Services.CommandHandlers.UserContractCommandHandlers;
+using PersonalFinanceApplication_Services.EventServices.AiInsightEvent;
 using PersonalFinanceApplication_Services.EventServices.BalanceEvent;
 using PersonalFinanceApplication_Services.EventServices.SalarySchedulerEvent;
 using PersonalFinanceApplication_Services.GrpcServiceConnection;
@@ -85,11 +86,14 @@ builder.Services.AddScoped<IValidator<UpdateIncomeCommand>, UpdateIncomeValidato
 builder.Services.AddScoped<IValidator<GetExpenseQuery>, GetExpenseValidator>();
 builder.Services.AddScoped<IValidator<GetIncomeQuery>, GetIncomeValidator>();
 builder.Services.AddScoped<IValidator<CreateSalarySchedulerCommand>, CreateSalaryScheduleValidator>();
+builder.Services.AddScoped<IValidator<GetExpensesQuery>, GetExpensesQueryValidator>();
+builder.Services.AddScoped<IValidator<GetIncomesQuery>, GetIncomesQueryValidator>();
 
 //services
 builder.Services.AddSingleton<IEnvironmentValidationService, EnvironmentValidationService>();
 builder.Services.AddScoped<ISalarySchedulerService, SalarySchedulerService>();
 builder.Services.AddScoped<IGrpcServiceConnection, GrpcServiceConnection>();
+builder.Services.AddScoped<IAiInsightEventService, AiInsightEventService>();
 
 //rabbitMQSConfig
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
@@ -156,7 +160,7 @@ builder.Services.AddHangfireServer();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
-    return ConnectionMultiplexer.Connect("localhost:6379");
+    return ConnectionMultiplexer.Connect(builder.Configuration["RedisSettings:RedisDatabaseEndpoint"]);
 });
 
 
